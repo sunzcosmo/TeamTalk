@@ -8,6 +8,7 @@ AUX_SOURCE_DIRECTORY(./jsoncpp SRC_LIST3)
 if(APPLE)
     SET(PB_LIB_DIR ./pb/lib/mac)
 elseif(UNIX)
+    ##     SET(PB_LIB_DIR ./pb/lib/linux)
     SET(PB_LIB_DIR ./pb/lib/linux)
 endif()
 

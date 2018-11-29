@@ -197,7 +197,6 @@ build_redis() {
 	else
 		return 1
 	fi
-	
 }
 
 check_mariadb() {

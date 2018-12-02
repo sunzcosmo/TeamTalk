@@ -1,0 +1,60 @@
+[  2%] Building CXX object CMakeFiles/base.dir/Base64.cpp.o
+[  5%] Building CXX object CMakeFiles/base.dir/BaseSocket.cpp.o
+In file included from /usr/include/c++/8.2.1/ext/hash_map:60,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ostype.h:39,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/BaseSocket.h:8,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/BaseSocket.cpp:1:
+/usr/include/c++/8.2.1/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
+ #warning \
+  ^~~~~~~
+[  8%] Building CXX object CMakeFiles/base.dir/Condition.cpp.o
+In file included from /usr/include/c++/8.2.1/ext/hash_map:60,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ostype.h:39,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/Lock.h:16,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/Condition.h:16,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/Condition.cpp:12:
+/usr/include/c++/8.2.1/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
+ #warning \
+  ^~~~~~~
+[ 11%] Building CXX object CMakeFiles/base.dir/ConfigFileReader.cpp.o
+In file included from /usr/include/c++/8.2.1/ext/hash_map:60,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ostype.h:39,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/util.h:6,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ConfigFileReader.h:11,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ConfigFileReader.cpp:9:
+/usr/include/c++/8.2.1/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
+ #warning \
+  ^~~~~~~
+[ 14%] Building CXX object CMakeFiles/base.dir/EncDec.cpp.o
+In file included from /usr/include/c++/8.2.1/ext/hash_map:60,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ostype.h:39,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EncDec.h:18,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EncDec.cpp:14:
+/usr/include/c++/8.2.1/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
+ #warning \
+  ^~~~~~~
+[ 17%] Building CXX object CMakeFiles/base.dir/EventDispatch.cpp.o
+In file included from /usr/include/c++/8.2.1/ext/hash_map:60,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ostype.h:39,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EventDispatch.h:9,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EventDispatch.cpp:1:
+/usr/include/c++/8.2.1/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
+ #warning \
+  ^~~~~~~
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EventDispatch.cpp: In member function ‘void CEventDispatch::AddEvent(SOCKET, uint8_t)’:
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EventDispatch.cpp:335:50: warning: unused parameter ‘socket_event’ [-Wunused-parameter]
+ void CEventDispatch::AddEvent(SOCKET fd, uint8_t socket_event)
+                                          ~~~~~~~~^~~~~~~~~~~~
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EventDispatch.cpp: In member function ‘void CEventDispatch::RemoveEvent(SOCKET, uint8_t)’:
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/EventDispatch.cpp:346:53: warning: unused parameter ‘socket_event’ [-Wunused-parameter]
+ void CEventDispatch::RemoveEvent(SOCKET fd, uint8_t socket_event)
+                                             ~~~~~~~~^~~~~~~~~~~~
+[ 20%] Building CXX object CMakeFiles/base.dir/HttpClient.cpp.o
+In file included from /usr/include/c++/8.2.1/ext/hash_map:60,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/ostype.h:39,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/public_define.h:15,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/HttpClient.h:18,
+                 from /home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/HttpClient.cpp:14:
+/usr/include/c++/8.2.1/backward/backward_warning.h:32:2: warning: #warning This file includes at least one deprecated or antiquated header which may be removed without further notice at a future date. Please use a non-deprecated interface with equivalent functionality instead. For a listing of replacement headers and interfaces, consult the file backward_warning.h. To disable this warning use -Wno-deprecated. [-Wcpp]
+ #warning \
+  ^~~~~~~

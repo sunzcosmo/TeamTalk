@@ -1,4 +1,4 @@
-prepare before compile the server
+# Prepare before compile the server
 1. install MySQL client library in /usr/local/mysql/
 	add /usr/local/mysql/bin to $PATH
 2. install Redis client library 

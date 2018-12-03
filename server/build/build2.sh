@@ -86,9 +86,9 @@ function build_module {
 
 function build_modules {
     
-    build_module base
+    build_module third_party/slog
 
-    build_module slog
+    build_module base
 
     build_module login_server
 

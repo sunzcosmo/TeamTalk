@@ -12,7 +12,7 @@
 
 // TODO
 // Use default head file path here
-#include "pb/google/protobuf/message_lite.h"
+#include "google/protobuf/message_lite.h"
 
 #define IM_PDU_HEADER_LEN		16
 #define IM_PDU_VERSION			1

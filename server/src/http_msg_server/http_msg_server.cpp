@@ -5,6 +5,8 @@
 //  Created by jianqing.du on 13-9-29.
 //  Copyright (c) 2013年 ziteng. All rights reserved.
 //
+#include "TimConfig.hpp"
+#include "TimLog.hpp"
 
 #include "netlib.h"
 #include "ConfigFileReader.h"
@@ -31,7 +33,6 @@ void http_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pPar
 		log("!!!error msg: %d ", msg);
 	}
 }
-
 
 int main(int argc, char* argv[])
 {

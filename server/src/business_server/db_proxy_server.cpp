@@ -4,6 +4,7 @@
  *  Created on: 2014年7月21日
  *      Author: ziteng
  */
+#include "TimLog.hpp"
 
 #include "netlib.h"
 #include "ConfigFileReader.h"

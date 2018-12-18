@@ -3,6 +3,8 @@
 
 #define _CRT_SECURE_NO_DEPRECATE	// remove warning C4996, 
 
+#include "TimLog.h"
+
 #include "ostype.h"
 #include "UtilPdu.h"
 #include "Lock.h"
@@ -54,13 +56,15 @@ extern CSLog g_imlog;
 #if defined(_WIN32) || defined(_WIN64)
 #define log(fmt, ...)  g_imlog.Info("<%s>\t<%d>\t<%s>,"fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 #else
-#define log(fmt, args...)  g_imlog.Info("<%s>|<%d>|<%s>," fmt, __FILENAME__, __LINE__, __FUNCTION__, ##args)
+// #define log(fmt, args...)  g_imlog.Info("<%s>|<%d>|<%s>," fmt, __FILENAME__, __LINE__, __FUNCTION__, ##args)
+#define log(level, fmt, args...) (tim::log::TimLog::GetInstance()->log(level, fmt, ##args))
 #endif
-//#define log(fmt, ...)  g_imlog.Info("<%s>\t<%d>\t<%s>,"+fmt, __FILENAME__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+
+
 
 uint64_t get_tick_count();
-void util_sleep(uint32_t millisecond);
 
+void util_sleep(uint32_t millisecond);
 
 class CStrExplode
 {

@@ -19,7 +19,7 @@ ADD_DEFINITIONS( -g -W -Wall -D_REENTRANT -D_FILE_OFFSET_BITS=64 -DAC_HAS_INFO
 -DAC_HAS_WARNING -DAC_HAS_ERROR -DAC_HAS_CRITICAL -DTIXML_USE_STL
 -DAC_HAS_DEBUG -DLINUX_DAEMON -std=c++11 -DENCRYPT)
 
-INCLUDE_DIRECTORIES(./ ./businiess ../base ../base/jsoncpp ../base/pb/protocol
+INCLUDE_DIRECTORIES(./ ./businiess ./db_access ./third_party/redis ../base ../base/jsoncpp ../base/pb/protocol
 ../base/pb/ ${MYSQL_INCLUDE_DIR})
 LINK_DIRECTORIES(./ ../base ${PB_LIB_DIR} ${MYSQL_LIB} ../base/slog/lib)
 

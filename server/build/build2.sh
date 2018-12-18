@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 # Auther: sunzcosmo@gmail.com
-TIM_OS_TYPE=`ls -al ./os/ | grep "linux" | awk -F[_\.] '{ print $2 }'`
+TIM_OS_TYPES=`ls -al ./os/ | grep "linux" | awk -F[_\.] '{ print $2 }'`
 
 . ./os/linux_arch.sh
 
@@ -44,7 +44,7 @@ function init {
 	echo "#ifndef __VERSION_H__" > ../src/base/version.h
 	echo "#define __VERSION_H__" >> ../base/version.h
 	echo "#define VERSION \"$1\"" >> ../base/version.h
-	echo "#endif" >> ../src/base/version.h
+	echo "#endif //__VERSION_H__" >> ../src/base/version.h
     
     ## Creating lib dir for cpp lib file.
     if [ -d lib ]; then
@@ -86,8 +86,7 @@ function build_module {
 
 function build_modules {
     
-    build_module third_party/slog
-
+    ## Build base lib first(required).
     build_module base
 
     build_module login_server

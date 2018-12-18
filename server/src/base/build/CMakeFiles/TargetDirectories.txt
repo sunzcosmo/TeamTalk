@@ -1,0 +1,3 @@
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/build/CMakeFiles/rebuild_cache.dir
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/build/CMakeFiles/edit_cache.dir
+/home/sunzcosmo/WorkSpace/TeamTalk/server/src/base/build/CMakeFiles/base.dir

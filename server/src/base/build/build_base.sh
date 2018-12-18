@@ -1,8 +1,9 @@
 #!/bin/sh
 
 function main() {
-    # Clean formal make files.
-    rm -f build_base.log
+    if [ -f build_base.log ]; then
+        mv build_base.log build_base.log.bak
+    fi
 
     make clean
 

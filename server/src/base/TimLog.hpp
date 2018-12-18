@@ -39,24 +39,14 @@ private:
 
 TimLog::TimLog() 
 {
-    this->Init();
-
-    boost::log::add_common_attributes();
-
-    boost::log::source::severity_logger<severity_level> lg;
-
-    BOOST_LOG_SEV(lg, info) << "An informational severity message";
+    Init();
 }
 
 void TimLog::Init() {
 
-    boost::log::add_file_log("test.log");
-
-    boost::log::core::get()->set_filter(boost::trivial::severity >= boost::log::trivial::info);
 }
 
 void TimLog::SetFilter(severity_level lv) {
-    boost::log::core::get()->set_filter();
 }
 
     

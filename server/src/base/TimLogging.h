@@ -7,14 +7,14 @@
 
 #include <stdlib.h>
 
+#include "muduo/base/LogFile.h"
+#include "muduo/base/LogStream.h"
+#include "muduo/base/Timestamp.h"
+
 
 namespace tim {
 
-class TimLogFile {
-
-};
-
-class TimLogger
+class Logger
 {
 public:
     enum SeverityLevel
@@ -41,7 +41,19 @@ public:
     static void DoNothing() {}
 
     class SourceFile {
-        SourceFile(const char* file_name);
+    public:
+        SourceFile(const char* file_name) : name_(file_name) {
+            const char* slash = strrchr(filename, '/');
+            if (slash)
+            {
+                data_ = slash + 1;
+            }
+            size_ = static_cast<int>(strlen(data_));
+        }
+
+    private:
+        const char *data_;
+        uint32_t size_;
     };
 
 private:
@@ -49,77 +61,74 @@ private:
 
     static SeverityLevel InitLogLevel();
 
-    static void TimLogger::ResetLogLevel(TimLogger::SeverityLevel lv);
-
 public:
+    static void ResetLogLevel(SeverityLevel lv);
 
-    void UpdateLogLevel(SeverityLevel level);
+    static SeverityLevel LogLevel();
 
 private:
     class Impl
     {
     public:
-        Impl(SeverityLevel level, int old_errno, const TimLogger::SourceFile& file, int line);
+        Impl(SeverityLevel level, int old_errno, const SourceFile& file, int line);
 
         uint32_t time;
-        
-        // LogStream stream_;
+    
         SeverityLevel level;
 
         int line;
 
         SourceFile basename;
 
-        void _GetAndFormatTime();
+        void GetAndFormatTime();
         
         void Finish();
+    private:
+        muduo::Timestamp time_;
+        muduo::LogStream stream_;
+        SeverityLevel level_;
+        int line_;
+        SourceFile basename_;
     };
 
     Impl impl_;
+
+public:
+    muduo::LogStream& stream() { return impl_.stream_; }
+
+    typedef void (*OutputFunc)(const char* msg, int len);
+
+    typedef void (*FlushFunc)();
+
+private:
+    static OutputFunc output_;
+
+    static FlushFunc flush_;
+
+    static muduo::TimeZone log_time_zone_;
+
+public:
+    static void setOutput(OutputFunc);
+
+    static void setFlush(FlushFunc);
+
+    static void setTimeZone(const muduo::TimeZone& tz);
 };
 
-TimLogger::SeverityLevel TimLogger::log_level_ = InitLogLevel();
-
-inline TimLogger::SeverityLevel TimLogger::InitLogLevel() {
-    if(::getenv("TIM_LOG_TRACE")) {
-        return TimLogger::SeverityLevel::TRACE;
-    } else if(::getenv("TIM_LOG_DEBUG")) {
-        return TimLogger::SeverityLevel::DEBUG;
-    } else if(::getenv("TIM_LOG_INFO")) {
-        return TimLogger::SeverityLevel::INFO;
-    } else if(::getenv("TIM_LOG_WARNING")) {
-        return TimLogger::SeverityLevel::WARNING;
-    } else if(::getenv("TIM_LOG_ERROR")) {
-        return TimLogger::SeverityLevel::ERROR;
-    }
-
-    return TimLogger::SeverityLevel::INFO;
-}
-
+#define LOG_TRACE   (tim::Logger::LogLevel() <= tim::Logger::TRACE) ? \
+                            tim::Logger::DoNothing() : tim::Logger(__FILE__, __LINE__, tim::Logger::TRACE).stream()
+#define LOG_DEBUG   (tim::Logger::LogLevel() <= tim::Logger::DEBUG) ? \
+                            tim::Logger::DoNothing() : tim::Logger(__FILE__, __LINE__, tim::Logger::DEBUG).stream()
+#define LOG_INFO    (tim::Logger::LogLevel() <= tim::Logger::INFO) ? \
+                            tim::Logger::DoNothing() : tim::Logger(__FILE__, __LINE__, tim::Logger::INFO).stream()
+#define LOG_WARNING (tim::Logger::LogLevel() <= tim::Logger::WARNING) ? \
+                            tim::Logger::DoNothing() : tim::Logger(__FILE__, __LINE__, tim::Logger::WARNING).stream()
+#define LOG_ERROR   tim::Logger(__FILE__, __LINE__, tim::Logger::ERROR).stream()
+#define LOG_FATAL   tim::Logger(__FILE__, __LINE__, tim::Logger::FATAL).stream()
 // TODO
-// Support format sytanx
-#define LOG_TRACE   (tim::logger::logLevel() > tim::logger::TRACE) ? \
-                            TimLogger::DoNothing() : tim::logger::TimLogger(__FILE__, __LINE__, tim::logger::TRACE).stream()
-#define LOG_DEBUG   (tim::logger::logLevel() > tim::logger::DEBUG) ? \
-                            TimLogger::DoNothing() : tim::logger::TimLogger(__FILE__, __LINE__, tim::logger::DEBUG).stream()
-#define LOG_INFO    (tim::logger::logLevel() > tim::logger::INFO) ? \
-                            TimLogger::DoNothing() : tim::logger::TimLogger(__FILE__, __LINE__, tim::Logger::INFO).stream()
-#define LOG_WARNING (tim::logger::logLevel() > tim::logger::WARNING) ? \
-                            TimLogger::DoNothing() : tim::logger::TimLogger(__FILE__, __LINE__, tim::Logger::WARNING).stream()
-#define LOG_ERROR   tim::TimLogger(__FILE__, __LINE__, tim::Logger::ERROR).stream()
-#define LOG_FATAL   tim::TimLogger(__FILE__, __LINE__, tim::Logger::FATAL).stream()
+// Provide format log to old log expression.
 
-// POXIS only
-inline void TimLogger::ResetLogLevel(TimLogger::SeverityLevel lv) {
-    LOG_FATAL<<"Reset log level, from ";
-    if(unsetenv(SeverityLevelName[TimLogger::log_level_])) {
-        LOG_ERROR<<"Reset log level failed."
-    } else if(setenv(SeverityLevelName[lv], "", 0)) {
-        LOG_ERROR<<"Reset log level failed."
-    }
-
-    TimLogger::log_level_ = InitLogLevel();
-}
+int InitFileLogger(const char *filepath, const int& file_size = 200*1000);
 
 }  // namespace tim
 

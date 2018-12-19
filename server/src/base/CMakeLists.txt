@@ -19,8 +19,8 @@ ADD_DEFINITIONS( -g -W -Wall -D_REENTRANT -D_FILE_OFFSET_BITS=64 -DAC_HAS_INFO
 -DAC_HAS_WARNING -DAC_HAS_ERROR -DAC_HAS_CRITICAL -DTIXML_USE_STL
 -DAC_HAS_DEBUG -DLINUX_DAEMON)
 
-INCLUDE_DIRECTORIES(./ ../ ./jsoncpp ./pb ./pb/protocol)
-LINK_DIRECTORIES(./ ${PB_LIB_DIR} ./slog/lib)
+INCLUDE_DIRECTORIES(./ ../ ./jsoncpp ./pb ./pb/protocol ../../third_party/)
+LINK_DIRECTORIES(./ ${PB_LIB_DIR} ./slog/lib ../../third_party/muduo/lib)
 
 ## ADD_LIBRARY(base STATIC ${SRC_LIST1} ${SRC_LIST2} ${SRC_LIST3})
 ADD_LIBRARY(base SHARED ${SRC_LIST1} ${SRC_LIST2} ${SRC_LIST3})

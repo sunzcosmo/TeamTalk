@@ -12,7 +12,9 @@
 #include "session_manager.h"
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-#include "slog_api.h"
+// #include "slog_api.h"
+
+#include "util.h"
 
 CSLog g_pushlog = CSLog(LOG_MODULE_PUSH);
 

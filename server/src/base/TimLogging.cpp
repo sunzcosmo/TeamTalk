@@ -10,20 +10,31 @@
 
 #include <sstream>
 
+#include <stdarg.h>
+
 namespace tim {
 
-// The value exists during the thread exists, If the thread quit, the value got reset;
-__thread char t_errnobuf[512];
-__thread char t_time[64];
-__thread time_t t_lastSecond;
+  
+const char* SeverityLevelName[NUM_LOG_LEVELS] =
+{
+    "TRACE",
+    "DEBUG",
+    "INFO",
+    "WARNING",
+    "ERROR",
+    "FATAL",
+};
 
-// helper class for known string length at compile time
+thread_local char t_errnobuf[512];
+thread_local char t_time[64];
+thread_local time_t t_lastSecond;
+
 class T
 {
  public:
   T(const char* str, unsigned len)
-    :str_(str),
-     len_(len)
+      : str_(str),
+        len_(len)
   {
     assert(strlen(str) == len_);
   }
@@ -33,7 +44,7 @@ class T
 };
 
 inline Logger::SeverityLevel Logger::InitLogLevel() {
-    if(::getenv("TIM_LOG_TRACE")) {
+    if       (::getenv("TIM_LOG_TRACE")) {
         return Logger::SeverityLevel::TRACE;
     } else if(::getenv("TIM_LOG_DEBUG")) {
         return Logger::SeverityLevel::DEBUG;
@@ -95,16 +106,16 @@ Logger::OutputFunc Logger::output_ = DefaultOutput;
 Logger::FlushFunc Logger::flush_ = DefaultFlush;
 
 Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int line)
-  : time_(Timestamp::now()),
-    stream_(),
-    level_(level),
-    line_(line),
-    basename_(file)
+    : time_(Timestamp::now()),
+      stream_(),
+      level_(level),
+      line_(line),
+      basename_(file)
 {
   GetAndFormatTime();
   muduo::CurrentThread::tid();
   stream_ << T(CurrentThread::tidString(), CurrentThread::tidStringLength());
-  stream_ << T(Logger::SeverityLevelName[level], 6);
+  stream_ << T(SeverityLevelName[level], 6);
   if (savedErrno != 0)
   {
     stream_ << strerror_tl(savedErrno) << " (errno=" << savedErrno << ") ";
@@ -213,7 +224,7 @@ void FlushFunc()
 
 } // annoymous namespace
 
-using MAX_LOG_FILE_SIZE = 200*1000
+using MAX_LOG_FILE_SIZE = 200*1024
 
 int InitFileLogger(const char *filepath, const int& file_size)
 {
@@ -227,5 +238,26 @@ int InitFileLogger(const char *filepath, const int& file_size)
     return 0;
 }
 
-
 } // namespace tim
+
+using TIM_MAX_LOG_FORMAT_LEN 1024
+
+void format_log(const char* fmt, ...) 
+{
+    size_t input_len = strlen(fmt);
+
+    if(input_len > TIM_MAX_LOG_FORMAT_LEN) {
+      LOG_FATAL<<"Input log format length is bigger than legal length.";
+    }
+
+    char log_out[TIM_MAX_LOG_FORMAT_LEN];
+    
+    va_list	args;
+	  va_start(args, fmt);
+
+    vsnprintf(log_out, TIM_MAX_LOG_FORMAT_LEN, fmt, args);
+
+    LOG_INO<<log_out;
+    
+    va_end(args);
+}

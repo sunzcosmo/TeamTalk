@@ -10,7 +10,8 @@
 #include "muduo/base/LogFile.h"
 #include "muduo/base/LogStream.h"
 #include "muduo/base/Timestamp.h"
-
+#include "muduo/base/TimeZone.h"
+#include "boost/format.hpp"
 
 namespace tim {
 
@@ -28,21 +29,11 @@ public:
         NUM_LOG_LEVELS
     };
 
-    const char* SeverityLevelName[NUM_LOG_LEVELS] =
-    {
-        "TRACE",
-        "DEBUG",
-        "INFO",
-        "WARNING",
-        "ERROR",
-        "FATAL",
-    };
-
     static void DoNothing() {}
 
     class SourceFile {
     public:
-        SourceFile(const char* file_name) : name_(file_name) {
+        SourceFile(const char* filename) : data_(file_name) {
             const char* slash = strrchr(filename, '/');
             if (slash)
             {
@@ -83,9 +74,8 @@ private:
         void GetAndFormatTime();
         
         void Finish();
-    private:
-        muduo::Timestamp time_;
         muduo::LogStream stream_;
+        muduo::Timestamp time_;
         SeverityLevel level_;
         int line_;
         SourceFile basename_;
@@ -125,12 +115,16 @@ public:
                             tim::Logger::DoNothing() : tim::Logger(__FILE__, __LINE__, tim::Logger::WARNING).stream()
 #define LOG_ERROR   tim::Logger(__FILE__, __LINE__, tim::Logger::ERROR).stream()
 #define LOG_FATAL   tim::Logger(__FILE__, __LINE__, tim::Logger::FATAL).stream()
+
 // TODO
 // Provide format log to old log expression.
 
 int InitFileLogger(const char *filepath, const int& file_size = 200*1000);
 
 }  // namespace tim
+
+// Old log format;
+void log(const char* fmt, ...);
 
 #endif  // _TIM_LOG_H_INCLUDE_
 

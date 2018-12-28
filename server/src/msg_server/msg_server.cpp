@@ -14,6 +14,8 @@
 #include "DBServConn.h"
 #include "PushServConn.h"
 #include "FileServConn.h"
+
+#include "TimLogging.h"
 //#include "version.h"
 
 #define DEFAULT_CONCURRENT_DB_CONN_CNT  10
@@ -35,27 +37,34 @@ void msg_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* 
 }
 
 
-int main(int argc, char* argv[])
+int main(const int argc, const char* const argv[])
 {
-	if ((argc == 2) && (strcmp(argv[1], "-v") == 0)) {
+	if ((argc == 2) && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0)) {
 //		printf("Server Version: MsgServer/%s\n", VERSION);
 		printf("Server Build: %s %s\n", __DATE__, __TIME__);
 		return 0;
 	}
 
+    // Ignore SIGPIPE.
 	signal(SIGPIPE, SIG_IGN);
-	srand(time(NULL));
 
-	log("MsgServer max files can open: %d ", getdtablesize());
+	srand(time(NULL));
 
 	CConfigFileReader config_file("msgserver.conf");
 
 	char* listen_ip = config_file.GetConfigName("ListenIP");
 	char* str_listen_port = config_file.GetConfigName("ListenPort");
-	char* ip_addr1 = config_file.GetConfigName("IpAddr1");	// 电信IP
-	char* ip_addr2 = config_file.GetConfigName("IpAddr2");	// 网通IP
+    
+	// Support at most two ips.
+	char* ip_addr1 = config_file.GetConfigName("IpAddr1");
+	char* ip_addr2 = config_file.GetConfigName("IpAddr2");
+
 	char* str_max_conn_cnt = config_file.GetConfigName("MaxConnCnt");
     char* str_aes_key = config_file.GetConfigName("aesKey");
+	char *log_file_path = config_file.GetConfigName("LogFilePath");
+	char *log_file_size = config_file.GetConfigName("LogFilePath");
+
+	// Renamed the db_server to business_server.
 	uint32_t db_server_count = 0;
 	serv_info_t* db_server_list = read_server_config(&config_file, "DBServerIP", "DBServerPort", db_server_count);
 
@@ -66,15 +75,24 @@ int main(int argc, char* argv[])
 	serv_info_t* route_server_list = read_server_config(&config_file, "RouteServerIP", "RouteServerPort", route_server_count);
 
     uint32_t push_server_count = 0;
-    serv_info_t* push_server_list = read_server_config(&config_file, "PushServerIP",
-                                                       "PushServerPort", push_server_count);
+    serv_info_t* push_server_list = read_server_config(&config_file, "PushServerIP", "PushServerPort", push_server_count);
     
     uint32_t file_server_count = 0;
-    serv_info_t* file_server_list = read_server_config(&config_file, "FileServerIP",
-                                                       "FileServerPort", file_server_count);
-    
+    serv_info_t* file_server_list = read_server_config(&config_file, "FileServerIP", "FileServerPort", file_server_count);
+
+    // Do not use log function before this, otherwise the output log would be redirecting to console.
+	if(InitFileLogger(log_file_path, log_file_size)) {
+        printf("Error, Init logger file failed.");
+		return -1;
+	}
+
+	LOG_INFO<<"Starting msg_server...";
+
+	// log("MsgServer max files can open: %d ", getdtablesize());
+	LOG_INFO<<"MsgServer max files can open: %d "<<getdtablesize();
+
     if (!str_aes_key || strlen(str_aes_key)!=32) {
-        log("aes key is invalied");
+        LOG_ERROR<<"aes key is invalied";
         return -1;
     }
  
@@ -84,7 +102,8 @@ int main(int argc, char* argv[])
 	// 这样当其他业务量非常繁忙时，也不会影响客服端的登录验证
 	// 建议配置4个实例，这样更新BusinessServer时，不会影响业务
 	if (db_server_count < 2) {
-		log("DBServerIP need 2 instance at lest ");
+		// log("DBServerIP need 2 instance at lest ");
+		LOG_ERROR<<"DBServerIP need 2 instance at lest ";
 		return 1;
 	}
 
@@ -104,7 +123,7 @@ int main(int argc, char* argv[])
 	}
 
 	if (!listen_ip || !str_listen_port || !ip_addr1) {
-		log("config file miss, exit... ");
+        LOG_ERROR<<"config file miss, exit... ";
 		return -1;
 	}
 
@@ -116,16 +135,18 @@ int main(int argc, char* argv[])
 	uint16_t listen_port = atoi(str_listen_port);
 	uint32_t max_conn_cnt = atoi(str_max_conn_cnt);
 
-	int ret = netlib_init();
-
-	if (ret == NETLIB_ERROR)
-		return ret;
+    int net_ret = netlib_init();
+	if (net_ret == NETLIB_ERROR)
+	{
+		LOG_ERROR<<"Init net lib failed, error code: "<<net_ret;
+		return -1;
+	}
 
 	CStrExplode listen_ip_list(listen_ip, ';');
 	for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
-		ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, msg_serv_callback, NULL);
-		if (ret == NETLIB_ERROR)
-			return ret;
+		net_ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, msg_serv_callback, NULL);
+		if (net_ret == NETLIB_ERROR)
+			return net_ret;
 	}
 
 	printf("server start listen on: %s:%d\n", listen_ip, listen_port);
@@ -142,9 +163,11 @@ int main(int argc, char* argv[])
 
     init_push_serv_conn(push_server_list, push_server_count);
 	
-	printf("now enter the event loop...\n");
+	printf("Entering the event loop...\n");
     
     writePid();
+
+	LOG_INFO<<"Start msg_server successed."
 
 	netlib_eventloop();
 

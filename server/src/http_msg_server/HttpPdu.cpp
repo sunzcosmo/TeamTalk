@@ -84,7 +84,7 @@ char* CPostDataParser::GetValue(const char* key)
 		return (char*)it->second.c_str();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 char* GetErrorMsg(uint32_t error_code)

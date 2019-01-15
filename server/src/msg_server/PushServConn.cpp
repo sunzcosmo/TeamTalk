@@ -16,15 +16,15 @@ using namespace IM::BaseDefine;
 #define IOS_PUSH_FLASH_MAX_LENGTH    40
 
 static ConnMap_t g_push_server_conn_map;
-static CPushServConn* g_master_push_conn = NULL;
+static CPushServConn* g_master_push_conn = nullptr;
 
-static serv_info_t* g_push_server_list = NULL;
+static serv_info_t* g_push_server_list = nullptr;
 static uint32_t		g_push_server_count = 0;			// 到PushServer的总连接数
 
 static void push_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	ConnMap_t::iterator it_old;
-	CPushServConn* pConn = NULL;
+	CPushServConn* pConn = nullptr;
 	uint64_t cur_time = get_tick_count();
     
 	for (ConnMap_t::iterator it = g_push_server_conn_map.begin(); it != g_push_server_conn_map.end(); ) {
@@ -49,7 +49,7 @@ void init_push_serv_conn(serv_info_t* server_list, uint32_t server_count)
     
 	serv_init<CPushServConn>(g_push_server_list, g_push_server_count);
     
-	netlib_register_timer(push_server_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(push_server_conn_timer_callback, nullptr, 1000);
 }
 
 void build_ios_push_flash(string& flash, uint32_t msg_type, uint32_t from_id)
@@ -105,7 +105,7 @@ void build_ios_push_flash(string& flash, uint32_t msg_type, uint32_t from_id)
 
 CPushServConn* get_push_serv_conn()
 {
-    CPushServConn* push_conn = NULL;
+    CPushServConn* push_conn = nullptr;
 	if (g_master_push_conn && g_master_push_conn->IsOpen()) {
         push_conn = g_master_push_conn;
     }
@@ -141,7 +141,7 @@ void CPushServConn::Close()
 	serv_reset<CPushServConn>(g_push_server_list, g_push_server_count, m_serv_idx);
     
     m_bOpen = false;
-    g_master_push_conn = NULL;
+    g_master_push_conn = nullptr;
 	if (m_handle != NETLIB_INVALID_HANDLE) {
 		netlib_close(m_handle);
 		g_push_server_conn_map.erase(m_handle);

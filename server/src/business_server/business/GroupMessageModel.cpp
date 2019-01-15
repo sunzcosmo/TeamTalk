@@ -25,7 +25,7 @@ using namespace std;
 
 extern string strAudioEnc;
 
-CGroupMessageModel* CGroupMessageModel::m_pInstance = NULL;
+CGroupMessageModel* CGroupMessageModel::m_pInstance = nullptr;
 
 /**
  *  构造函数

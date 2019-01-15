@@ -50,7 +50,7 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
         {
             CAutoLock cAutoLock(&g_cLimitLock);
             list<uint32_t>& lsErrorTime = g_hmLimits[strDomain];
-            uint32_t tmNow = time(NULL);
+            uint32_t tmNow = time(nullptr);
             
             //清理超过30分钟的错误时间点记录
             /*
@@ -123,7 +123,7 @@ void doLogin(CImPdu* pPdu, uint32_t conn_uuid)
         else
         {
             //密码错误，记录一次登陆失败
-            uint32_t tmCurrent = time(NULL);
+            uint32_t tmCurrent = time(nullptr);
             CAutoLock cAutoLock(&g_cLimitLock);
             list<uint32_t>& lsErrorTime = g_hmLimits[strDomain];
             lsErrorTime.push_front(tmCurrent);

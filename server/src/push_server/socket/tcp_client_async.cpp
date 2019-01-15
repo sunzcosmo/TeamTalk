@@ -143,7 +143,7 @@ int32_t CTCPClientAsync::SendBufferAsync()
 	{
 		//将未成功的数据重新放置buffer loop中，待下次发送
 		int32_t nSize = 0;
-        pBufferLoop->Read(NULL, nRet);
+        pBufferLoop->Read(nullptr, nRet);
         SOCKET_IO_DEBUG("send tcp data, send size: %d, less than %d.", nRet, pBufferLoop->GetWriteOffset());
 	}
 	else

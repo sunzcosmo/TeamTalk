@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
     {
         signal(SIGCHLD, SIG_IGN);
         
-        //execl(argv[1], argv[1], NULL);
+        //execl(argv[1], argv[1], nullptr);
         execv(argv[1], argv + 1);
         printf("! Excute daemon programm %s failed. \n", argv[1]);
         

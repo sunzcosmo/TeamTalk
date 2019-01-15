@@ -23,7 +23,7 @@ CAes::CAes(const string& strKey)
 
 int CAes::Encrypt(const char* pInData, uint32_t nInLen, char** ppOutData, uint32_t& nOutLen)
 {
-    if(pInData == NULL|| nInLen <=0 )
+    if(pInData == nullptr|| nInLen <=0 )
     {
         return -1;
     }
@@ -59,7 +59,7 @@ int CAes::Encrypt(const char* pInData, uint32_t nInLen, char** ppOutData, uint32
 
 int CAes::Decrypt(const char* pInData, uint32_t nInLen, char** ppOutData, uint32_t& nOutLen)
 {
-    if(pInData == NULL|| nInLen <=0 )
+    if(pInData == nullptr|| nInLen <=0 )
     {
         return -1;
     }
@@ -102,7 +102,7 @@ void CAes::Free(char* pOutData)
     if(pOutData)
     {
         free(pOutData);
-        pOutData = NULL;
+        pOutData = nullptr;
     }
 }
 

@@ -39,13 +39,13 @@ static uint32_t g_down_msg_miss_cnt = 0;	// 下行消息丢包数
 
 static bool g_log_msg_toggle = true;	// 是否把收到的MsgData写入Log的开关，通过kill -SIGUSR2 pid 打开/关闭
 
-static CFileHandler* s_file_handler = NULL;
-static CGroupChat* s_group_chat = NULL;
+static CFileHandler* s_file_handler = nullptr;
+static CGroupChat* s_group_chat = nullptr;
 
 void msg_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	ConnMap_t::iterator it_old;
-	CMsgConn* pConn = NULL;
+	CMsgConn* pConn = nullptr;
 	uint64_t cur_time = get_tick_count();
 
 	for (ConnMap_t::iterator it = g_msg_conn_map.begin(); it != g_msg_conn_map.end(); ) {
@@ -96,7 +96,7 @@ void init_msg_conn()
 	signal(SIGUSR1, signal_handler_usr1);
 	signal(SIGUSR2, signal_handler_usr2);
 	signal(SIGHUP, signal_handler_hup);
-	netlib_register_timer(msg_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(msg_conn_timer_callback, nullptr, 1000);
 	s_file_handler = CFileHandler::getInstance();
 	s_group_chat = CGroupChat::GetInstance();
 }
@@ -419,7 +419,7 @@ void CMsgConn::_HandleLoginRequest(CImPdu* pPdu)
 }
     if (result) {
         IM::Login::IMLoginRes msg;
-        msg.set_server_time(time(NULL));
+        msg.set_server_time(time(nullptr));
         msg.set_result_code((IM::BaseDefine::ResultType)result);
         msg.set_result_string(result_string);
         CImPdu pdu;
@@ -587,7 +587,7 @@ void CMsgConn::_HandleClientMsgData(CImPdu* pPdu)
 		log("HandleClientMsgData, %d->%d, msg_type=%u, msg_id=%u. ", GetUserId(), to_session_id, msg_type, msg_id);
 	}
 
-	uint32_t cur_time = time(NULL);
+	uint32_t cur_time = time(nullptr);
     CDbAttachData attach_data(ATTACH_TYPE_HANDLE, m_handle, 0);
     msg.set_from_user_id(GetUserId());
     msg.set_create_time(cur_time);
@@ -617,7 +617,7 @@ void CMsgConn::_HandleClientMsgDataAck(CImPdu* pPdu)
 void CMsgConn::_HandleClientTimeRequest(CImPdu* pPdu)
 {
     IM::Message::IMClientTimeRsp msg;
-    msg.set_server_time((uint32_t)time(NULL));
+    msg.set_server_time((uint32_t)time(nullptr));
     CImPdu pdu;
     pdu.SetPBMsg(&msg);
     pdu.SetServiceId(SID_MSG);
@@ -758,7 +758,7 @@ void CMsgConn::_HandleClientP2PCmdMsg(CImPdu* pPdu)
 	}
     
 	if (pToImUser) {
-		pToImUser->BroadcastPdu(pPdu, NULL);
+		pToImUser->BroadcastPdu(pPdu, nullptr);
 	}
     
 	CRouteServConn* pRouteConn = get_route_serv_conn();
@@ -862,7 +862,7 @@ void CMsgConn::_HandleClientUsersStatusRequest(CImPdu* pPdu)
     if(pRouteConn)
     {
         msg.set_user_id(GetUserId());
-        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, nullptr);
         msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
         pPdu->SetPBMsg(&msg);
         pRouteConn->SendPdu(pPdu);
@@ -959,7 +959,7 @@ void CMsgConn::_HandleChangeSignInfoRequest(CImPdu* pPdu) {
         CDBServConn* pDBConn = get_db_serv_conn();
         if (pDBConn) {
                 msg.set_user_id(GetUserId());
-                CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+                CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, nullptr);
                 msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
         
                 pPdu->SetPBMsg(&msg);
@@ -973,7 +973,7 @@ void CMsgConn::_HandlePushShieldRequest(CImPdu* pPdu) {
     CDBServConn* pDBConn = get_db_serv_conn();
     if (pDBConn) {
         msg.set_user_id(GetUserId());
-        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, nullptr);
         msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
         
         pPdu->SetPBMsg(&msg);
@@ -988,7 +988,7 @@ void CMsgConn::_HandleQueryPushShieldRequest(CImPdu* pPdu) {
     CDBServConn* pDBConn = get_db_serv_conn();
     if (pDBConn) {
         msg.set_user_id(GetUserId());
-        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, NULL);
+        CPduAttachData attach(ATTACH_TYPE_HANDLE, m_handle,0, nullptr);
         msg.set_attach_data(attach.GetBuffer(), attach.GetLength());
         
         pPdu->SetPBMsg(&msg);

@@ -17,7 +17,7 @@
 #include "FileServConn.h"
 using namespace IM::BaseDefine;
 
-CFileHandler* CFileHandler::s_handler_instance = NULL;
+CFileHandler* CFileHandler::s_handler_instance = nullptr;
 
 CFileHandler* CFileHandler::getInstance()
 {
@@ -226,7 +226,7 @@ void CFileHandler::HandleFileHasOfflineRes(CImPdu* pPdu)
     CMsgConn* pConn = CImUserManager::GetInstance()->GetMsgConnByHandle(req_user_id,
                                                                         attach.GetHandle());
     CFileServConn* pFileConn = get_random_file_serv_conn();
-    const list<IM::BaseDefine::IpAddr>* ip_list = NULL;
+    const list<IM::BaseDefine::IpAddr>* ip_list = nullptr;
     if (pFileConn)
     {
         ip_list = pFileConn->GetFileServerIPList();

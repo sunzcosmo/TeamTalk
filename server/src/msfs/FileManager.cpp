@@ -69,7 +69,7 @@ string FileManager::createFileRelatePath() {
 	m_cs.Leave();
 	
 	struct timeval tv;
-	gettimeofday(&tv,NULL);
+	gettimeofday(&tv,nullptr);
 	u64 usec = tv.tv_sec*1000000 + tv.tv_usec;
 	u64 tid = (u64)pthread_self();
 	char unique[40];
@@ -112,7 +112,7 @@ int FileManager::uploadFile(const char *type, const void* content, u32 size,
 	tmpFile->create();
 	tmpFile->write(0, size, content);
 	delete tmpFile;
-	tmpFile = NULL;
+	tmpFile = nullptr;
 
 	//increase total file sum
 	m_filesCs.Enter();
@@ -154,27 +154,27 @@ FileManager::getOrCreateEntry(const std::string& url, bool create) {
 	}
 	if (!create) {
 		m_cs.Leave();
-		return NULL;
+		return nullptr;
 	}
 	
 	string path;
 	if (getAbsPathByUrl(url, path)) {
 		log("Get abs path from url[%s] error", url.c_str());
 		m_cs.Leave();
-		return NULL;
+		return nullptr;
 	}
     
     struct stat buf;
     if(stat(path.c_str(), &buf) == -1)
     {
         m_cs.Leave();
-        return NULL;
+        return nullptr;
     }
     
     if(!S_ISREG(buf.st_mode))
     {
         m_cs.Leave();
-        return NULL;
+        return nullptr;
     }
     
 
@@ -183,28 +183,28 @@ FileManager::getOrCreateEntry(const std::string& url, bool create) {
 	e->m_fileSize = fileSize;
 	e->m_fileContent = new byte[fileSize];
 	memset(e->m_fileContent, 0x0, fileSize);
-	e->m_lastAccess = time(NULL);
+	e->m_lastAccess = time(nullptr);
 	File* tmpFile = new File(path.c_str());
 	tmpFile->open();
 	int ret = tmpFile->read(0, fileSize, e->m_fileContent);
 	if (ret) {
 		log("read file error while url:%s", url.c_str());
 		delete e;
-		e = NULL;
+		e = nullptr;
 		delete tmpFile;
-		tmpFile = NULL;
+		tmpFile = nullptr;
 		m_cs.Leave();
-		return NULL;
+		return nullptr;
 	}
 	delete tmpFile;
-	tmpFile = NULL;
+	tmpFile = nullptr;
 	
 	std::pair < map <std::string, Entry*>::iterator, bool> result;
 	result = m_map.insert(EntryMap::value_type(url, e));
 	if (result.second == false) {
 		log("Insert url[%s] to file map error", url.c_str());
 		delete e;
-		e = NULL;
+		e = nullptr;
 	}
 	updateMapCache();
 	m_cs.Leave();
@@ -219,7 +219,7 @@ int FileManager::downloadFileByUrl(char *url, void *buf, u32 *size) {
 	}
 	memcpy(buf, en->m_fileContent, en->m_fileSize);
 	*size = (u32)en->m_fileSize;
-	en->m_lastAccess = time(NULL);//todo:need prodect with mutex
+	en->m_lastAccess = time(nullptr);//todo:need prodect with mutex
 	return 0;
 }
 
@@ -236,7 +236,7 @@ void FileManager::updateMapCache() {
 
 		it = m_map.begin();
 		while (it != m_map.end() && times) {
-			time_t currTime = time(NULL);
+			time_t currTime = time(nullptr);
 			if(currTime - it->second->m_lastAccess > 2*60*60) {
 				delete it->second;
 				m_map.erase(it++);
@@ -255,7 +255,7 @@ int FileManager::insertEntry(const std::string& url, size_t fileSize,
 	Entry *e = new Entry();
 	e->m_fileSize = fileSize;
 	e->m_fileContent = new byte[fileSize];
-	e->m_lastAccess = time(NULL);
+	e->m_lastAccess = time(nullptr);
 	memcpy(e->m_fileContent, content, fileSize);
 	
 	m_cs.Enter();
@@ -263,7 +263,7 @@ int FileManager::insertEntry(const std::string& url, size_t fileSize,
 	ret = m_map.insert(EntryMap::value_type(url, e));
 	if (ret.second == false) {
 		delete e;
-		e = NULL;
+		e = nullptr;
 	}
 	updateMapCache();
 	m_cs.Leave();

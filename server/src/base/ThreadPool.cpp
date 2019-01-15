@@ -26,12 +26,12 @@ void* CWorkerThread::StartRoutine(void* arg)
 
 	pThread->Execute();
 
-	return NULL;
+	return nullptr;
 }
 
 void CWorkerThread::Start()
 {
-	(void)pthread_create(&m_thread_id, NULL, StartRoutine, this);
+	(void)pthread_create(&m_thread_id, nullptr, StartRoutine, this);
 }
 
 void CWorkerThread::Execute()
@@ -69,7 +69,7 @@ void CWorkerThread::PushTask(CTask* pTask)
 CThreadPool::CThreadPool()
 {
 	m_worker_size = 0;
-	m_worker_list = NULL;
+	m_worker_list = nullptr;
 }
 
 CThreadPool::~CThreadPool()

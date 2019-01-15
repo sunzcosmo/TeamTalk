@@ -28,11 +28,11 @@ using namespace IM::BaseDefine;
 
 static ConnMap_t g_db_server_conn_map;
 
-static serv_info_t* g_db_server_list = NULL;
+static serv_info_t* g_db_server_list = nullptr;
 static uint32_t		g_db_server_count = 0;			// 到DBServer的总连接数
 static uint32_t		g_db_server_login_count = 0;	// 到进行登录处理的DBServer的总连接数
-static CGroupChat*	s_group_chat = NULL;
-static CFileHandler* s_file_handler = NULL;
+static CGroupChat*	s_group_chat = nullptr;
+static CFileHandler* s_file_handler = nullptr;
 
 
 extern CAes *pAes;
@@ -40,7 +40,7 @@ extern CAes *pAes;
 static void db_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	ConnMap_t::iterator it_old;
-	CDBServConn* pConn = NULL;
+	CDBServConn* pConn = nullptr;
 	uint64_t cur_time = get_tick_count();
 
 	for (ConnMap_t::iterator it = g_db_server_conn_map.begin(); it != g_db_server_conn_map.end(); ) {
@@ -70,7 +70,7 @@ void init_db_serv_conn(serv_info_t* server_list, uint32_t server_count, uint32_t
 
 	serv_init<CDBServConn>(g_db_server_list, g_db_server_count);
 
-	netlib_register_timer(db_server_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(db_server_conn_timer_callback, nullptr, 1000);
 	s_group_chat = CGroupChat::GetInstance();
 	s_file_handler = CFileHandler::getInstance();
 }
@@ -79,7 +79,7 @@ void init_db_serv_conn(serv_info_t* server_list, uint32_t server_count, uint32_t
 static CDBServConn* get_db_server_conn_in_range(uint32_t start_pos, uint32_t stop_pos)
 {
 	uint32_t i = 0;
-	CDBServConn* pDbConn = NULL;
+	CDBServConn* pDbConn = nullptr;
 
 	// determine if there is a valid DB server connection
 	for (i = start_pos; i < stop_pos; i++) {
@@ -91,7 +91,7 @@ static CDBServConn* get_db_server_conn_in_range(uint32_t start_pos, uint32_t sto
 
 	// no valid DB server connection
 	if (i == stop_pos) {
-		return NULL;
+		return nullptr;
 	}
 
 	// return a random valid DB server connection
@@ -293,7 +293,7 @@ void CDBServConn::_HandleValidateResponse(CImPdu* pPdu)
     log("HandleValidateResp, user_name=%s, result=%d", login_name.c_str(), result);
     
     CImUser* pImUser = CImUserManager::GetInstance()->GetImUserByLoginName(login_name);
-    CMsgConn* pMsgConn = NULL;
+    CMsgConn* pMsgConn = nullptr;
     if (!pImUser) {
         log("ImUser for user_name=%s not exist", login_name.c_str());
         return;
@@ -356,7 +356,7 @@ void CDBServConn::_HandleValidateResponse(CImPdu* pPdu)
         pUser->ValidateMsgConn(pMsgConn->GetHandle(), pMsgConn);
         
         IM::Login::IMLoginRes msg3;
-        msg3.set_server_time(time(NULL));
+        msg3.set_server_time(time(nullptr));
         msg3.set_result_code(IM::BaseDefine::REFUSE_REASON_NONE);
         msg3.set_result_string(result_string);
         msg3.set_online_status((IM::BaseDefine::UserStatType)pMsgConn->GetOnlineStatus());
@@ -382,7 +382,7 @@ void CDBServConn::_HandleValidateResponse(CImPdu* pPdu)
     else
     {
         IM::Login::IMLoginRes msg4;
-        msg4.set_server_time(time(NULL));
+        msg4.set_server_time(time(nullptr));
         msg4.set_result_code((IM::BaseDefine::ResultType)result);
         msg4.set_result_string(result_string);
         CImPdu pdu3;
@@ -538,7 +538,7 @@ void CDBServConn::_HandleMsgData(CImPdu *pPdu)
     }
 
     if (pToImUser) {
-        pToImUser->BroadcastClientMsgData(pPdu, msg_id, NULL, from_user_id);
+        pToImUser->BroadcastClientMsgData(pPdu, msg_id, nullptr, from_user_id);
     }
     
     IM::Server::IMGetDeviceTokenReq msg3;
@@ -658,7 +658,7 @@ void CDBServConn::_HandleChangeAvatarResponse(CImPdu* pPdu)
 	log("HandleChangeAvatarResp, user_id=%u, result=%u.", user_id, result);
     
     CImUser* pUser = CImUserManager::GetInstance()->GetImUserById(user_id);
-    if (NULL != pUser) {
+    if (nullptr != pUser) {
         msg.clear_attach_data();
         pPdu->SetPBMsg(&msg);
         pUser->BroadcastPdu(pPdu);
@@ -708,7 +708,7 @@ void CDBServConn::_HandleGetDeviceTokenResponse(CImPdu *pPdu)
     if (msg_type == IM::BaseDefine::MSG_TYPE_SINGLE_TEXT || msg_type == IM::BaseDefine::MSG_TYPE_GROUP_TEXT)
     {
         //msg_data =
-        char* msg_out = NULL;
+        char* msg_out = nullptr;
         uint32_t msg_out_len = 0;
         if (pAes->Decrypt(msg_data.c_str(), msg_data.length(), &msg_out, msg_out_len) == 0)
         {

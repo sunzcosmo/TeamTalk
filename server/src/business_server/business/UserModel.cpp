@@ -15,7 +15,7 @@
 #include "SyncCenter.h"
 
 
-CUserModel* CUserModel::m_pInstance = NULL;
+CUserModel* CUserModel::m_pInstance = nullptr;
 
 CUserModel::CUserModel()
 {
@@ -29,7 +29,7 @@ CUserModel::~CUserModel()
 
 CUserModel* CUserModel::getInstance()
 {
-    if(m_pInstance == NULL)
+    if(m_pInstance == nullptr)
     {
         m_pInstance = new CUserModel();
     }
@@ -186,7 +186,7 @@ bool CUserModel::updateUser(DBUserInfo_t &cUser)
     CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_master");
     if (pDBConn)
     {
-        uint32_t nNow = (uint32_t)time(NULL);
+        uint32_t nNow = (uint32_t)time(nullptr);
         string strSql = "update IMUser set `sex`=" + int2string(cUser.nSex)+ ", `nick`='" + cUser.strNick +"', `domain`='"+ cUser.strDomain + "', `name`='" + cUser.strName + "', `phone`='" + cUser.strTel + "', `email`='" + cUser.strEmail+ "', `avatar`='" + cUser.strAvatar + "', `sign_info`='" + cUser.sign_info +"', `departId`='" + int2string(cUser.nDeptId) + "', `status`=" + int2string(cUser.nStatus) + ", `updated`="+int2string(nNow) + " where id="+int2string(cUser.nId);
         bRet = pDBConn->ExecuteUpdate(strSql.c_str());
         if(!bRet)
@@ -213,7 +213,7 @@ bool CUserModel::insertUser(DBUserInfo_t &cUser)
         CPrepareStatement* stmt = new CPrepareStatement();
         if (stmt->Init(pDBConn->GetMysql(), strSql))
         {
-            uint32_t nNow = (uint32_t) time(NULL);
+            uint32_t nNow = (uint32_t) time(nullptr);
             uint32_t index = 0;
             uint32_t nGender = cUser.nSex;
             uint32_t nStatus = cUser.nStatus;
@@ -309,7 +309,7 @@ void CUserModel::setCallReport(uint32_t nUserId, uint32_t nPeerId, IM::BaseDefin
             CPrepareStatement* stmt = new CPrepareStatement();
             if (stmt->Init(pDBConn->GetMysql(), strSql))
             {
-                uint32_t nNow = (uint32_t) time(NULL);
+                uint32_t nNow = (uint32_t) time(nullptr);
                 uint32_t index = 0;
                 uint32_t nClient = (uint32_t) nClientType;
                 stmt->SetParam(index++, nUserId);
@@ -350,7 +350,7 @@ bool CUserModel::updateUserSignInfo(uint32_t user_id, const string& sign_info) {
     CDBManager* db_manager = CDBManager::getInstance();
     CDBConn* db_conn = db_manager->GetDBConn("teamtalk_master");
     if (db_conn) {
-        uint32_t now = (uint32_t)time(NULL);
+        uint32_t now = (uint32_t)time(nullptr);
         string str_sql = "update IMUser set `sign_info`='" + sign_info + "', `updated`=" + int2string(now) + " where id="+int2string(user_id);
         rv = db_conn->ExecuteUpdate(str_sql.c_str());
         if(!rv) {
@@ -395,7 +395,7 @@ bool CUserModel::updatePushShield(uint32_t user_id, uint32_t shield_status) {
     CDBManager* db_manager = CDBManager::getInstance();
     CDBConn* db_conn = db_manager->GetDBConn("teamtalk_master");
     if (db_conn) {
-        uint32_t now = (uint32_t)time(NULL);
+        uint32_t now = (uint32_t)time(nullptr);
         string str_sql = "update IMUser set `push_shield_status`="+ int2string(shield_status) + ", `updated`=" + int2string(now) + " where id="+int2string(user_id);
         rv = db_conn->ExecuteUpdate(str_sql.c_str());
         if(!rv) {

@@ -21,7 +21,7 @@
 
 using namespace std;
 
-CMessageModel* CMessageModel::m_pInstance = NULL;
+CMessageModel* CMessageModel::m_pInstance = nullptr;
 extern string strAudioEnc;
 
 CMessageModel::CMessageModel()
@@ -149,7 +149,7 @@ bool CMessageModel::sendMessage(uint32_t nRelateId, uint32_t nFromId, uint32_t n
         pDBManager->RelDBConn(pDBConn);
         if (bRet)
         {
-            uint32_t nNow = (uint32_t) time(NULL);
+            uint32_t nNow = (uint32_t) time(nullptr);
             incMsgCount(nFromId, nToId);
         }
         else

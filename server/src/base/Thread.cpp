@@ -33,16 +33,16 @@ void* CThread::StartRoutine(void* arg)
 #ifdef _WIN32
 	return 0;
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 
 void CThread::StartThread()
 {
 #ifdef _WIN32
-	(void)CreateThread(NULL, 0, StartRoutine, this, 0, &m_thread_id);
+	(void)CreateThread(nullptr, 0, StartRoutine, this, 0, &m_thread_id);
 #else
-	(void)pthread_create(&m_thread_id, NULL, StartRoutine, this);
+	(void)pthread_create(&m_thread_id, nullptr, StartRoutine, this);
 #endif
 }
 
@@ -81,7 +81,7 @@ CThreadNotify::CThreadNotify()
 	pthread_mutexattr_settype(&m_mutexattr, PTHREAD_MUTEX_RECURSIVE);
 	pthread_mutex_init(&m_mutex, &m_mutexattr);
     
-	pthread_cond_init(&m_cond, NULL);
+	pthread_cond_init(&m_cond, nullptr);
 }
 
 CThreadNotify::~CThreadNotify()

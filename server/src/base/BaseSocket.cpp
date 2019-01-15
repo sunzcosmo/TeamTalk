@@ -16,7 +16,7 @@ void RemoveBaseSocket(CBaseSocket* pSocket)
 
 CBaseSocket* FindBaseSocket(net_handle_t fd)
 {
-	CBaseSocket* pSocket = NULL;
+	CBaseSocket* pSocket = nullptr;
 	SocketMap::iterator iter = g_socket_map.find(fd);
 	if (iter != g_socket_map.end())
 	{
@@ -171,11 +171,11 @@ void CBaseSocket::OnRead()
 		u_long avail = 0;
 		if ( (ioctlsocket(m_socket, FIONREAD, &avail) == SOCKET_ERROR) || (avail == 0) )
 		{
-			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
+			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, nullptr);
 		}
 		else
 		{
-			m_callback(m_callback_data, NETLIB_MSG_READ, (net_handle_t)m_socket, NULL);
+			m_callback(m_callback_data, NETLIB_MSG_READ, (net_handle_t)m_socket, nullptr);
 		}
 	}
 }
@@ -197,22 +197,22 @@ void CBaseSocket::OnWrite()
 		getsockopt(m_socket, SOL_SOCKET, SO_ERROR, (void*)&error, &len);
 #endif
 		if (error) {
-			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
+			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, nullptr);
 		} else {
 			m_state = SOCKET_STATE_CONNECTED;
-			m_callback(m_callback_data, NETLIB_MSG_CONFIRM, (net_handle_t)m_socket, NULL);
+			m_callback(m_callback_data, NETLIB_MSG_CONFIRM, (net_handle_t)m_socket, nullptr);
 		}
 	}
 	else
 	{
-		m_callback(m_callback_data, NETLIB_MSG_WRITE, (net_handle_t)m_socket, NULL);
+		m_callback(m_callback_data, NETLIB_MSG_WRITE, (net_handle_t)m_socket, nullptr);
 	}
 }
 
 void CBaseSocket::OnClose()
 {
 	m_state = SOCKET_STATE_CLOSING;
-	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
+	m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, nullptr);
 }
 
 void CBaseSocket::SetSendBufSize(uint32_t send_size)
@@ -302,7 +302,7 @@ void CBaseSocket::_SetAddr(const char* ip, const uint16_t port, sockaddr_in* pAd
 	if (pAddr->sin_addr.s_addr == INADDR_NONE)
 	{
 		hostent* host = gethostbyname(ip);
-		if (host == NULL)
+		if (host == nullptr)
 		{
 			log("gethostbyname failed, ip=%s", ip);
 			return;
@@ -339,7 +339,7 @@ void CBaseSocket::_AcceptNewSocket()
 		_SetNonblock(fd);
 		AddBaseSocket(pSocket);
 		CEventDispatch::Instance()->AddEvent(fd, SOCKET_READ | SOCKET_EXCEP);
-		m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)fd, NULL);
+		m_callback(m_callback_data, NETLIB_MSG_CONNECT, (net_handle_t)fd, nullptr);
 	}
 }
 

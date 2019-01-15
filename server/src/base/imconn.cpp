@@ -12,7 +12,7 @@
 
 static CImConn* FindImConn(ConnMap_t* imconn_map, net_handle_t handle)
 {
-	CImConn* pConn = NULL;
+	CImConn* pConn = nullptr;
 	ConnMap_t::iterator iter = imconn_map->find(handle);
 	if (iter != imconn_map->end())
 	{
@@ -138,7 +138,7 @@ void CImConn::OnRead()
 		m_last_recv_tick = get_tick_count();
 	}
 
-    CImPdu* pPdu = NULL;
+    CImPdu* pPdu = nullptr;
 	try
     {
 		while ( ( pPdu = CImPdu::ReadPdu(m_in_buf.GetBuffer(), m_in_buf.GetWriteOffset()) ) )
@@ -147,9 +147,9 @@ void CImConn::OnRead()
             
 			HandlePdu(pPdu);
 
-			m_in_buf.Read(NULL, pdu_len);
+			m_in_buf.Read(nullptr, pdu_len);
 			delete pPdu;
-            pPdu = NULL;
+            pPdu = nullptr;
 //			++g_recv_pkt_cnt;
 		}
 	} catch (CPduException& ex) {
@@ -157,7 +157,7 @@ void CImConn::OnRead()
 				ex.GetServiceId(), ex.GetCommandId(), ex.GetErrorCode(), ex.GetErrorMsg());
         if (pPdu) {
             delete pPdu;
-            pPdu = NULL;
+            pPdu = nullptr;
         }
         OnClose();
 	}
@@ -180,7 +180,7 @@ void CImConn::OnWrite()
 			break;
 		}
 
-		m_out_buf.Read(NULL, ret);
+		m_out_buf.Read(nullptr, ret);
 	}
 
 	if (m_out_buf.GetWriteOffset() == 0) {

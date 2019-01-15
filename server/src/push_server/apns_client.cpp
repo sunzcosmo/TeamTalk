@@ -30,16 +30,16 @@ CAPNSClient::CAPNSClient(CEpollIOLoop& io) : m_io(io)
 CAPNSClient::~CAPNSClient()
 {
     Stop();
-    if (m_pGatewayClient != NULL)
+    if (m_pGatewayClient != nullptr)
     {
         delete m_pGatewayClient;
-        m_pGatewayClient = NULL;
+        m_pGatewayClient = nullptr;
     }
     
-    if (m_pFeedbackClient != NULL)
+    if (m_pFeedbackClient != nullptr)
     {
         delete m_pFeedbackClient;
-        m_pFeedbackClient = NULL;
+        m_pFeedbackClient = nullptr;
     }
 }
 

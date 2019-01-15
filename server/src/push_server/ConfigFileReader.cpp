@@ -23,9 +23,9 @@ CConfigFileReader::~CConfigFileReader()
 char* CConfigFileReader::GetConfigName(const char* name)
 {
 	if (!m_load_ok)
-		return NULL;
+		return nullptr;
 
-	char* value = NULL;
+	char* value = nullptr;
     map<string, string>::iterator it = m_config_map->find(name);
     if (it != m_config_map->end()) {
         value = (char*)it->second.c_str();
@@ -71,7 +71,7 @@ void CConfigFileReader::_LoadFile(const char* filename)
 void CConfigFileReader::_ParseLine(char* line)
 {
 	char* p = strchr(line, '=');
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	*p = 0;
@@ -93,7 +93,7 @@ char* CConfigFileReader::_TrimSpace(char* name)
 	}
 
 	if (strlen(start_pos) == 0)
-		return NULL;
+		return nullptr;
 
 	// remove ending space or tab
 	char* end_pos = name + strlen(name) - 1;
@@ -105,7 +105,7 @@ char* CConfigFileReader::_TrimSpace(char* name)
 
 	int len = (int)(end_pos - start_pos) + 1;
 	if (len <= 0)
-		return NULL;
+		return nullptr;
 
 	return start_pos;
 }

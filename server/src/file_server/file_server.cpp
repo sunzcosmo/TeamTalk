@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
 
 
 	for (uint32_t i = 0; i < client_listen_ip_list.GetItemCnt(); i++) {
-		ret = netlib_listen(client_listen_ip_list.GetItem(i), client_listen_port, FileClientConnCallback, NULL);
+		ret = netlib_listen(client_listen_ip_list.GetItem(i), client_listen_port, FileClientConnCallback, nullptr);
         if (ret == NETLIB_ERROR) {
             printf("listen %s:%d error!!\n", client_listen_ip_list.GetItem(i), client_listen_port);
 			return ret;
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
         }
 	}
 
-    ret = netlib_listen(str_msg_server_listen_ip, msg_server_listen_port, FileMsgServerConnCallback, NULL);
+    ret = netlib_listen(str_msg_server_listen_ip, msg_server_listen_port, FileMsgServerConnCallback, nullptr);
     if (ret == NETLIB_ERROR) {
         printf("listen %s:%d error!!\n", str_msg_server_listen_ip, msg_server_listen_port);
         return ret;

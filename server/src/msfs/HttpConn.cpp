@@ -22,7 +22,7 @@ list<Response_t*> CHttpConn::s_response_pdu_list;
 
 CHttpConn* FindHttpConnByHandle(uint32_t conn_handle)
 {
-    CHttpConn* pConn = NULL;
+    CHttpConn* pConn = nullptr;
     HttpConnMap_t::iterator it = g_http_conn_map.find(conn_handle);
     if (it != g_http_conn_map.end())
     {
@@ -71,7 +71,7 @@ void http_conn_loop_callback(void* callback_data, uint8_t msg, uint32_t handle, 
 void http_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle,
         void* pParam)
 {
-    CHttpConn* pConn = NULL;
+    CHttpConn* pConn = nullptr;
     HttpConnMap_t::iterator it, it_old;
     uint64_t cur_time = get_tick_count();
 
@@ -87,8 +87,8 @@ void http_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle,
 
 void init_http_conn()
 {
-    netlib_register_timer(http_conn_timer_callback, NULL, 1000);
-    netlib_add_loop(http_conn_loop_callback, NULL);
+    netlib_register_timer(http_conn_timer_callback, nullptr, 1000);
+    netlib_add_loop(http_conn_loop_callback, nullptr);
 }
 
 //////////////////////////
@@ -125,10 +125,10 @@ void CHttpTask::run()
         snprintf(pContent, strlen(HTTP_RESPONSE_403), HTTP_RESPONSE_403);
         CHttpConn::AddResponsePdu(m_ConnHandle, pContent, strlen(pContent));
     }
-    if(m_pContent != NULL)
+    if(m_pContent != nullptr)
     {
         delete [] m_pContent;
-        m_pContent = NULL;
+        m_pContent = nullptr;
     }
 }
 
@@ -136,14 +136,14 @@ void CHttpTask::OnUpload()
 {
 
     //get the file original filename
-    char *pContent = NULL;
+    char *pContent = nullptr;
         int nTmpLen = 0;
         const char* pPos = memfind(m_pContent, m_nContentLen, CONTENT_DISPOSITION, strlen(CONTENT_DISPOSITION));
-        if (pPos != NULL)
+        if (pPos != nullptr)
         {
             nTmpLen = pPos - m_pContent;
             const char* pPos2 = memfind(pPos, m_nContentLen - nTmpLen, "filename=", strlen("filename="));
-            if (pPos2 != NULL)
+            if (pPos2 != nullptr)
             {
                 pPos = pPos2 + strlen("filename=") + 1;
                 const char * pPosQuotes = memfind(pPos, m_nContentLen - nTmpLen, "\"", strlen("\""));
@@ -157,7 +157,7 @@ void CHttpTask::OnUpload()
 
                     
                     const char* pPosType = memfind(szFileName, nFileNameLen, ".", 1, false);
-                    if(pPosType != NULL)
+                    if(pPosType != nullptr)
                     {
                         char szType[16];
                         int nTypeLen = nFileNameLen - (pPosType + 1 - szFileName);
@@ -168,10 +168,10 @@ void CHttpTask::OnUpload()
                             log("upload file, file name:%s", szFileName);
                             char szExtend[16];
                             const char* pPosExtend = memfind(szFileName, nFileNameLen, "_", 1, false);
-                            if(pPosExtend != NULL)
+                            if(pPosExtend != nullptr)
                             {
                                 const char* pPosTmp = memfind(pPosExtend, nFileNameLen - (pPosExtend + 1 - szFileName), "x", 1);
-                                if(pPosTmp != NULL)
+                                if(pPosTmp != nullptr)
                                 {
                                     int nWidthLen = pPosTmp - pPosExtend - 1;
                                     int nHeightLen = pPosType - pPosTmp - 1;
@@ -216,20 +216,20 @@ void CHttpTask::OnUpload()
                                 int nBoundaryLen = m_strContentType.length() - nPos - strlen(BOUNDARY_MARK);
 
                                 pPos = memfind(m_pContent, m_nContentLen, pBoundary, nBoundaryLen);
-                                if (NULL != pPos)
+                                if (nullptr != pPos)
                                 {
                                     nTmpLen = pPos - m_pContent;
                                     pPos = memfind(m_pContent + nTmpLen, m_nContentLen - nTmpLen, CONTENT_TYPE, strlen(CONTENT_TYPE));
-                                    if (NULL != pPos)
+                                    if (nullptr != pPos)
                                     {
                                         nTmpLen = pPos - m_pContent;
                                         pPos = memfind(m_pContent + nTmpLen, m_nContentLen - nTmpLen, HTTP_END_MARK, strlen(HTTP_END_MARK));
-                                        if (NULL != pPos)
+                                        if (nullptr != pPos)
                                         {
                                             nTmpLen = pPos - m_pContent;
                                             const char* pFileStart = pPos + strlen(HTTP_END_MARK);
                                             pPos2 = memfind(m_pContent + nTmpLen, m_nContentLen - nTmpLen, pBoundary, nBoundaryLen);
-                                            if (NULL != pPos2)
+                                            if (nullptr != pPos2)
                                             {
                                                 int64_t nFileSize = pPos2 - strlen(HTTP_END_MARK) - pFileStart;
                                                 if (nFileSize <= HTTP_UPLOAD_MAX)
@@ -533,7 +533,7 @@ void CHttpConn::OnRead()
         }
 
         int nContentLen = m_HttpParser.GetContentLen();
-        char* pContent = NULL;
+        char* pContent = nullptr;
         if(nContentLen != 0)
         {
             try {
@@ -581,7 +581,7 @@ void CHttpConn::OnWrite()
 
     int out_buf_size = (int) m_out_buf.GetWriteOffset();
 
-    m_out_buf.Read(NULL, ret);
+    m_out_buf.Read(nullptr, ret);
 
     if (ret < out_buf_size)
     {
@@ -632,15 +632,15 @@ void CHttpConn::SendResponsePduList()
         if (pConn) {
             pConn->Send(pResp->pContent, pResp->content_len);
         }
-        if(pResp->pContent != NULL)
+        if(pResp->pContent != nullptr)
         {
             delete [] pResp->pContent;
-            pResp->pContent = NULL;
+            pResp->pContent = nullptr;
         }
-        if(pResp != NULL)
+        if(pResp != nullptr)
         {
             delete pResp;
-            pResp = NULL;
+            pResp = nullptr;
         }
 
         s_list_lock.lock();

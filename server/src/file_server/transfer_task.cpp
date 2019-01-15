@@ -32,9 +32,9 @@ std::string GenerateUUID() {
 }
 
 const char* GetCurrentOfflinePath() {
-    static const char* g_current_save_path = NULL;
+    static const char* g_current_save_path = nullptr;
     
-    if (g_current_save_path == NULL) {
+    if (g_current_save_path == nullptr) {
         static char s_tmp[BUFSIZ];
         char work_path[BUFSIZ];
         if(!getcwd(work_path, BUFSIZ)) {
@@ -56,7 +56,7 @@ const char* GetCurrentOfflinePath() {
 }
 
 static FILE* OpenByRead(const std::string& task_id, uint32_t user_id) {
-    FILE* fp = NULL;
+    FILE* fp = nullptr;
     if (task_id.length()>=2) {
         char save_path[BUFSIZ];
         snprintf(save_path, BUFSIZ, "%s/%s/%s", GetCurrentOfflinePath(), task_id.substr(0, 2).c_str() , task_id.c_str());
@@ -69,7 +69,7 @@ static FILE* OpenByRead(const std::string& task_id, uint32_t user_id) {
 }
 
 static FILE* OpenByWrite(const std::string& task_id, uint32_t user_id) {
-    FILE* fp = NULL;
+    FILE* fp = nullptr;
     if (task_id.length()>=2) {
 
         char save_path[BUFSIZ];
@@ -104,10 +104,10 @@ BaseTransferTask::BaseTransferTask(const std::string& task_id, uint32_t from_use
       file_size_(file_size),
       state_(kTransferTaskStateReady) {
     
-    create_time_ = time(NULL);
+    create_time_ = time(nullptr);
           
-    from_conn_ = NULL;
-    to_conn_ = NULL;
+    from_conn_ = nullptr;
+    to_conn_ = nullptr;
           
     // last_update_time_ = get_tick_count();
 }
@@ -115,7 +115,7 @@ BaseTransferTask::BaseTransferTask(const std::string& task_id, uint32_t from_use
 void BaseTransferTask::SetLastUpdateTime() {
     // last_update_time_ = get_tick_count();
     
-    create_time_ = time(NULL);
+    create_time_ = time(nullptr);
 }
 
 //----------------------------------------------------------------------------
@@ -259,7 +259,7 @@ int OnlineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, uin
 
 //----------------------------------------------------------------------------
 OfflineTransferTask* OfflineTransferTask::LoadFromDisk(const std::string& task_id, uint32_t user_id) {
-    OfflineTransferTask* offline = NULL;
+    OfflineTransferTask* offline = nullptr;
     
     FILE* fp = OpenByRead(task_id, user_id);
     if (fp) {
@@ -407,9 +407,9 @@ int OfflineTransferTask::DoRecvData(uint32_t user_id, uint32_t offset, const cha
         log("Ready recv data, offset=%d, data_size=%d, segment_size=%d", offset, data_size, sengment_size_);
         
         if (state_ == kTransferTaskStateWaitingUpload) {
-            if (fp_ == NULL) {
+            if (fp_ == nullptr) {
                 fp_ = OpenByWrite(task_id_, to_user_id_);
-                if (fp_ == NULL) {
+                if (fp_ == nullptr) {
                     break;
                 }
             }
@@ -417,7 +417,7 @@ int OfflineTransferTask::DoRecvData(uint32_t user_id, uint32_t offset, const cha
             // 写文件头
             OfflineFileHeader file_header;
             memset(&file_header, 0, sizeof(file_header));
-            file_header.set_create_time(time(NULL));
+            file_header.set_create_time(time(nullptr));
             file_header.set_task_id(task_id_);
             file_header.set_from_user_id(from_user_id_);
             file_header.set_to_user_id(to_user_id_);
@@ -430,7 +430,7 @@ int OfflineTransferTask::DoRecvData(uint32_t user_id, uint32_t offset, const cha
         }
         
         // 存储
-        if (fp_ == NULL) {
+        if (fp_ == nullptr) {
             //
             break;
         }
@@ -444,7 +444,7 @@ int OfflineTransferTask::DoRecvData(uint32_t user_id, uint32_t offset, const cha
         if (transfered_idx_ == sengment_size_) {
             state_ = kTransferTaskStateUploadEnd;
             fclose(fp_);
-            fp_ = NULL;
+            fp_ = nullptr;
             rv = 1;
         } else {
             rv = 0;
@@ -471,17 +471,17 @@ int OfflineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, ui
             if (transfered_idx_ != 0)
                 transfered_idx_ = 0;
             
-            if (fp_!=NULL) {
+            if (fp_!=nullptr) {
                 fclose(fp_);
-                fp_ = NULL;
+                fp_ = nullptr;
             }
 
             fp_ = OpenByRead(task_id_, user_id);
-            if (fp_ == NULL) {
+            if (fp_ == nullptr) {
                 break;
             }
             
-            //if (file_header_ == NULL) {
+            //if (file_header_ == nullptr) {
             //    file_header_ = new FileHeader();
             //}
  
@@ -491,7 +491,7 @@ int OfflineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, ui
                 // close to ensure next time will read again
                 log("read file head failed.");
                 fclose(fp_); // error to get header
-                fp_ = NULL;
+                fp_ = nullptr;
                 break;
                 
             }
@@ -499,7 +499,7 @@ int OfflineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, ui
             state_ = kTransferTaskStateDownloading;
         } else {
             // 检查文件是否打开
-            if (fp_ == NULL) {
+            if (fp_ == nullptr) {
                 // 不可能发生
                 break;
             }
@@ -527,7 +527,7 @@ int OfflineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, ui
             
         // read data and send based on offset and datasize.
         char* tmpbuf = new char[data_size];
-        if (NULL == tmpbuf) {
+        if (nullptr == tmpbuf) {
             // alloc mem failed
             log("alloc mem failed.");
             // SendPdu(&pdu);
@@ -555,7 +555,7 @@ int OfflineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, ui
             log("pull req end.");
             state_ = kTransferTaskStateUploadEnd;
             fclose(fp_);
-            fp_ = NULL;
+            fp_ = nullptr;
             rv = 1;
         } else {
             rv = 0;
@@ -595,7 +595,7 @@ int OfflineTransferTask::DoPullFileRequest(uint32_t user_id, uint32_t offset, ui
             t->transfered_size += size; // record transfered size for next time offset
             if (0 == size) {
                 fclose(t->fp);
-                t->fp = NULL;
+                t->fp = nullptr;
                 
                 _StatesNotify(CLIENT_FILE_DONE, task_id.c_str(), user_id, this);
                 Close();

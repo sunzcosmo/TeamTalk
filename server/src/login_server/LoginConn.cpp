@@ -38,7 +38,7 @@ void login_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle
 
 void init_login_conn()
 {
-	netlib_register_timer(login_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(login_conn_timer_callback, nullptr, 1000);
 }
 
 CLoginConn::CLoginConn()

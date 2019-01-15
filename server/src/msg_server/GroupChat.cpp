@@ -18,7 +18,7 @@
 #include <set>
 using namespace IM::BaseDefine;
 
-CGroupChat* CGroupChat::s_group_chat_instance = NULL;
+CGroupChat* CGroupChat::s_group_chat_instance = nullptr;
 
 CGroupChat* CGroupChat::GetInstance()
 {
@@ -86,7 +86,7 @@ void CGroupChat::HandleClientGroupInfoRequest(CImPdu *pPdu, CMsgConn* pFromConn)
     uint32_t user_id = pFromConn->GetUserId();
     uint32_t group_cnt = msg.group_version_list_size();
     log("HandleClientGroupInfoRequest, user_id=%u, group_cnt=%u. ", user_id, group_cnt);
-    CPduAttachData attach_data(ATTACH_TYPE_HANDLE, pFromConn->GetHandle(), 0, NULL);
+    CPduAttachData attach_data(ATTACH_TYPE_HANDLE, pFromConn->GetHandle(), 0, nullptr);
     
     CDBServConn* pDBConn = get_db_serv_conn();
     if (pDBConn)
@@ -160,7 +160,7 @@ void CGroupChat::HandleGroupInfoResponse(CImPdu* pPdu)
             CImUser* pToImUser = CImUserManager::GetInstance()->GetImUserById(member_user_id);
             if (pToImUser)
             {
-                CMsgConn* pFromConn = NULL;
+                CMsgConn* pFromConn = nullptr;
                 if( member_user_id == user_id )
                 {
                     uint32_t reqHandle = pduAttachData.GetHandle();

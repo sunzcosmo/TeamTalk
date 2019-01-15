@@ -63,8 +63,8 @@ void InitializeFileClientConn() {
     }
 #endif
     
-    netlib_register_timer(FileClientConnTimerCallback, NULL, 1000);
-    netlib_register_timer(FileTaskTimerCallback, NULL, 10000);
+    netlib_register_timer(FileClientConnTimerCallback, nullptr, 1000);
+    netlib_register_timer(FileTaskTimerCallback, nullptr, 10000);
 }
 
 void FileClientConn::Close() {
@@ -85,14 +85,14 @@ void FileClientConn::Close() {
                 transfer_task_->set_state(kTransferTaskStateWaitingDownload);
             }
         }
-        transfer_task_->SetConnByUserID(user_id_, NULL);
+        transfer_task_->SetConnByUserID(user_id_, nullptr);
 
         TransferTaskManager::GetInstance()->DeleteTransferTaskByConnClose(transfer_task_->task_id());
         
         // 关闭另一个连接
 //        if (transfer_task_->GetTransMode() == FILE_TYPE_ONLINE) {
 //        }
-        transfer_task_ = NULL;
+        transfer_task_ = nullptr;
     }
     auth_ = false;
 
@@ -122,7 +122,7 @@ void FileClientConn::Close2() {
                 transfer_task_->set_state(kTransferTaskStateWaitingDownload);
             }
         }
-        transfer_task_->SetConnByUserID(user_id_, NULL);
+        transfer_task_->SetConnByUserID(user_id_, nullptr);
 //        TransferTaskManager::GetInstance()->DeleteTransferTaskByConnClose(transfer_task_->task_id());
 //        
 //        // 关闭另一个连接
@@ -133,7 +133,7 @@ void FileClientConn::Close2() {
 //                conn2->Close();
 //            }
 //        }
-//        transfer_task_ = NULL;
+//        transfer_task_ = nullptr;
     }
     auth_ = false;
     
@@ -230,20 +230,20 @@ void FileClientConn::_HandleClientFileLoginReq(CImPdu* pdu) {
     
     log("Client login, user_id=%d, task_id=%s, file_role=%d", user_id, task_id.c_str(), mode);
     
-    BaseTransferTask* transfer_task = NULL;
+    BaseTransferTask* transfer_task = nullptr;
     
     bool rv = false;
     do {
         // 查找任务是否存在
         transfer_task = TransferTaskManager::GetInstance()->FindByTaskID(task_id);
         
-        if (transfer_task == NULL) {
+        if (transfer_task == nullptr) {
             if (mode == CLIENT_OFFLINE_DOWNLOAD) {
                 // 文件不存在，检查是否是离线下载，有可能是文件服务器重启
                 // 尝试从磁盘加载
                 transfer_task = TransferTaskManager::GetInstance()->NewTransferTask(task_id, user_id);
                 // 需要再次判断是否加载成功
-                if (transfer_task == NULL) {
+                if (transfer_task == nullptr) {
                     log("Find task id failed, user_id=%u, taks_id=%s, mode=%d", user_id, task_id.c_str(), mode);
                     break;
                 }
@@ -434,7 +434,7 @@ void FileClientConn::_HandleClientFilePullFileReq(CImPdu *pdu) {
     pull_data_rsp.set_offset(offset);
     pull_data_rsp.set_file_data("");
 
-    // BaseTransferTask* transfer_task = NULL;
+    // BaseTransferTask* transfer_task = nullptr;
     int rv = -1;
     
     do {

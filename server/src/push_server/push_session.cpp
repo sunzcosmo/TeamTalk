@@ -19,7 +19,7 @@ CPushSession::~CPushSession()
     if (m_pSession)
     {
         delete m_pSession;
-        m_pSession = NULL;
+        m_pSession = nullptr;
     }
 }
 

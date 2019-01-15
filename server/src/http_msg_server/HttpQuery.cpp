@@ -21,7 +21,7 @@ static uint32_t g_last_year = 0;
 static uint32_t g_last_month = 0;
 static uint32_t g_last_mday = 0;
 
-CHttpQuery* CHttpQuery::m_query_instance = NULL;
+CHttpQuery* CHttpQuery::m_query_instance = nullptr;
 
 hash_map<string, auth_struct*> g_hm_http_auth;
 
@@ -50,7 +50,7 @@ CHttpQuery* CHttpQuery::GetInstance()
 {
 	if (!m_query_instance) {
 		m_query_instance = new CHttpQuery();
-		netlib_register_timer(http_query_timer_callback, NULL, 1000);
+		netlib_register_timer(http_query_timer_callback, nullptr, 1000);
 	}
 
 	return m_query_instance;

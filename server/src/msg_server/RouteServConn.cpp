@@ -28,14 +28,14 @@ static ConnMap_t g_route_server_conn_map;
 
 static serv_info_t* g_route_server_list;
 static uint32_t g_route_server_count;
-static CRouteServConn* g_master_rs_conn = NULL;
-static CFileHandler* s_file_handler = NULL;
-static CGroupChat* s_group_chat = NULL;
+static CRouteServConn* g_master_rs_conn = nullptr;
+static CFileHandler* s_file_handler = nullptr;
+static CGroupChat* s_group_chat = nullptr;
 
 void route_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	ConnMap_t::iterator it_old;
-	CRouteServConn* pConn = NULL;
+	CRouteServConn* pConn = nullptr;
 	uint64_t cur_time = get_tick_count();
 
 	for (ConnMap_t::iterator it = g_route_server_conn_map.begin(); it != g_route_server_conn_map.end(); ) {
@@ -57,14 +57,14 @@ void init_route_serv_conn(serv_info_t* server_list, uint32_t server_count)
 
 	serv_init<CRouteServConn>(g_route_server_list, g_route_server_count);
 
-	netlib_register_timer(route_server_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(route_server_conn_timer_callback, nullptr, 1000);
 	s_file_handler = CFileHandler::getInstance();
 	s_group_chat = CGroupChat::GetInstance();
 }
 
 bool is_route_server_available()
 {
-	CRouteServConn* pConn = NULL;
+	CRouteServConn* pConn = nullptr;
 
 	for (uint32_t i = 0; i < g_route_server_count; i++) {
 		pConn = (CRouteServConn*)g_route_server_list[i].serv_conn;
@@ -78,7 +78,7 @@ bool is_route_server_available()
 
 void send_to_all_route_server(CImPdu* pPdu)
 {
-	CRouteServConn* pConn = NULL;
+	CRouteServConn* pConn = nullptr;
 
 	for (uint32_t i = 0; i < g_route_server_count; i++) {
 		pConn = (CRouteServConn*)g_route_server_list[i].serv_conn;
@@ -97,9 +97,9 @@ CRouteServConn* get_route_serv_conn()
 void update_master_route_serv_conn()
 {
 	uint64_t oldest_connect_time = (uint64_t)-1;
-	CRouteServConn* pOldestConn = NULL;
+	CRouteServConn* pOldestConn = nullptr;
 
-	CRouteServConn* pConn = NULL;
+	CRouteServConn* pConn = nullptr;
 
 	for (uint32_t i = 0; i < g_route_server_count; i++) {
 		pConn = (CRouteServConn*)g_route_server_list[i].serv_conn;
@@ -170,7 +170,7 @@ void CRouteServConn::OnConfirm()
 	m_connect_time = get_tick_count();
 	g_route_server_list[m_serv_idx].reconnect_cnt = MIN_RECONNECT_CNT / 2;
 
-	if (g_master_rs_conn == NULL) {
+	if (g_master_rs_conn == nullptr) {
 		update_master_route_serv_conn();
 	}
 
@@ -306,13 +306,13 @@ void CRouteServConn::_HandleMsgData(CImPdu* pPdu)
     CImUser* pFromImUser = CImUserManager::GetInstance()->GetImUserById(from_user_id);
     if (pFromImUser)
     {
-        pFromImUser->BroadcastClientMsgData(pPdu, msg_id, NULL, from_user_id);
+        pFromImUser->BroadcastClientMsgData(pPdu, msg_id, nullptr, from_user_id);
     }
     
 	CImUser* pToImUser = CImUserManager::GetInstance()->GetImUserById(to_user_id);
 	if (pToImUser)
     {
-		pToImUser->BroadcastClientMsgData(pPdu, msg_id, NULL, from_user_id);
+		pToImUser->BroadcastClientMsgData(pPdu, msg_id, nullptr, from_user_id);
 	}
 }
 

@@ -171,7 +171,7 @@ namespace DB_PROXY {
             // 对于ios，不推送
             // 对于android，由客户端处理
             bool is_check_shield_status = false;
-            time_t now = time(NULL);
+            time_t now = time(nullptr);
             struct tm* _tm = localtime(&now);
             if (_tm->tm_hour >= 22 || _tm->tm_hour <=7 ) {
                     is_check_shield_status = true;

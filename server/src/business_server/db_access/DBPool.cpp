@@ -16,7 +16,7 @@
 
 #define MIN_DB_CONN_CNT		2
 
-CDBManager* CDBManager::s_db_manager = NULL;
+CDBManager* CDBManager::s_db_manager = nullptr;
 
 CResultSet::CResultSet(MYSQL_RES* res)
 {
@@ -35,7 +35,7 @@ CResultSet::~CResultSet()
 {
 	if (m_res) {
 		mysql_free_result(m_res);
-		m_res = NULL;
+		m_res = nullptr;
 	}
 }
 
@@ -73,7 +73,7 @@ char* CResultSet::GetString(const char* key)
 {
 	int idx = _GetIndex(key);
 	if (idx == -1) {
-		return NULL;
+		return nullptr;
 	} else {
 		return m_row[idx];
 	}
@@ -82,8 +82,8 @@ char* CResultSet::GetString(const char* key)
 /////////////////////////////////////////
 CPrepareStatement::CPrepareStatement()
 {
-	m_stmt = NULL;
-	m_param_bind = NULL;
+	m_stmt = nullptr;
+	m_param_bind = nullptr;
 	m_param_cnt = 0;
 }
 
@@ -91,12 +91,12 @@ CPrepareStatement::~CPrepareStatement()
 {
 	if (m_stmt) {
 		mysql_stmt_close(m_stmt);
-		m_stmt = NULL;
+		m_stmt = nullptr;
 	}
 
 	if (m_param_bind) {
 		delete [] m_param_bind;
-		m_param_bind = NULL;
+		m_param_bind = nullptr;
 	}
 }
 
@@ -209,7 +209,7 @@ uint32_t CPrepareStatement::GetInsertId()
 CDBConn::CDBConn(CDBPool* pPool)
 {
 	m_pDBPool = pPool;
-	m_mysql = NULL;
+	m_mysql = nullptr;
 }
 
 CDBConn::~CDBConn()
@@ -219,7 +219,7 @@ CDBConn::~CDBConn()
 
 int CDBConn::Init()
 {
-	m_mysql = mysql_init(NULL);
+	m_mysql = mysql_init(nullptr);
 	if (!m_mysql) {
 		log("mysql_init failed");
 		return 1;
@@ -230,7 +230,7 @@ int CDBConn::Init()
 	mysql_options(m_mysql, MYSQL_SET_CHARSET_NAME, "utf8mb4");
 
 	if (!mysql_real_connect(m_mysql, m_pDBPool->GetDBServerIP(), m_pDBPool->GetUsername(), m_pDBPool->GetPasswrod(),
-			m_pDBPool->GetDBName(), m_pDBPool->GetDBServerPort(), NULL, 0)) {
+			m_pDBPool->GetDBName(), m_pDBPool->GetDBServerPort(), nullptr, 0)) {
 		log("mysql_real_connect failed: %s", mysql_error(m_mysql));
 		return 2;
 	}
@@ -249,13 +249,13 @@ CResultSet* CDBConn::ExecuteQuery(const char* sql_query)
 
 	if (mysql_real_query(m_mysql, sql_query, strlen(sql_query))) {
 		log("mysql_real_query failed: %s, sql: %s", mysql_error(m_mysql), sql_query);
-		return NULL;
+		return nullptr;
 	}
 
 	MYSQL_RES* res = mysql_store_result(m_mysql);
 	if (!res) {
 		log("mysql_store_result failed: %s", mysql_error(m_mysql));
-		return NULL;
+		return nullptr;
 	}
 
 	CResultSet* result_set = new CResultSet(res);
@@ -353,7 +353,7 @@ CDBConn* CDBPool::GetDBConn()
 				log("Init DBConnecton failed");
 				delete pDBConn;
 				m_free_notify.Unlock();
-				return NULL;
+				return nullptr;
 			} else {
 				m_free_list.push_back(pDBConn);
 				m_db_cur_conn_cnt++;
@@ -406,7 +406,7 @@ CDBManager* CDBManager::getInstance()
 		s_db_manager = new CDBManager();
 		if (s_db_manager->Init()) {
 			delete s_db_manager;
-			s_db_manager = NULL;
+			s_db_manager = nullptr;
 		}
 	}
 
@@ -474,7 +474,7 @@ CDBConn* CDBManager::GetDBConn(const char* dbpool_name)
 {
 	map<string, CDBPool*>::iterator it = m_dbpool_map.find(dbpool_name);
 	if (it == m_dbpool_map.end()) {
-		return NULL;
+		return nullptr;
 	} else {
 		return it->second->GetDBConn();
 	}

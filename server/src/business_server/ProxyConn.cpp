@@ -72,7 +72,7 @@ static void sig_handler(int sig_no)
         CSyncCenter::getInstance()->stopSync();
         
         // callback after 4 second to exit process;
-		netlib_register_timer(exit_callback, NULL, 4000);
+		netlib_register_timer(exit_callback, nullptr, 4000);
 	}
 }
 
@@ -81,16 +81,16 @@ int init_proxy_conn(uint32_t thread_num)
 	s_handler_map = CHandlerMap::getInstance();
 	g_thread_pool.Init(thread_num);
 
-	netlib_add_loop(proxy_loop_callback, NULL);
+	netlib_add_loop(proxy_loop_callback, nullptr);
 
 	signal(SIGTERM, sig_handler);
 
-	return netlib_register_timer(proxy_timer_callback, NULL, 1000);
+	return netlib_register_timer(proxy_timer_callback, nullptr, 1000);
 }
 
 CProxyConn* get_proxy_conn_by_uuid(uint32_t uuid)
 {
-	CProxyConn* pConn = NULL;
+	CProxyConn* pConn = nullptr;
 	UserMap_t::iterator it = g_uuid_conn_map.find(uuid);
 	if (it != g_uuid_conn_map.end()) {
 		pConn = (CProxyConn *)it->second;
@@ -162,7 +162,7 @@ void CProxyConn::OnRead()
     try {
         while ( CImPdu::IsPduAvailable(m_in_buf.GetBuffer(), m_in_buf.GetWriteOffset(), pdu_len) ) {
             HandlePduBuf(m_in_buf.GetBuffer(), pdu_len);
-            m_in_buf.Read(NULL, pdu_len);
+            m_in_buf.Read(nullptr, pdu_len);
         }
     } catch (CPduException& ex) {
         log("!!!catch exception, err_code=%u, err_msg=%s, close the connection ",
@@ -198,7 +198,7 @@ void CProxyConn::OnTimer(uint64_t curr_tick)
 
 void CProxyConn::HandlePduBuf(uchar_t* pdu_buf, uint32_t pdu_len)
 {
-    CImPdu* pPdu = NULL;
+    CImPdu* pPdu = nullptr;
     pPdu = CImPdu::ReadPdu(pdu_buf, pdu_len);
     if (pPdu->GetCommandId() == IM::BaseDefine::CID_OTHER_HEARTBEAT) {
         return;
@@ -217,7 +217,7 @@ void CProxyConn::HandlePduBuf(uchar_t* pdu_buf, uint32_t pdu_len)
 /*
  * static method
  * add response pPdu to send list for another thread to send
- * if pPdu == NULL, it means you want to close connection with conn_uuid
+ * if pPdu == nullptr, it means you want to close connection with conn_uuid
  * e.g. parse packet failed
  */
 void CProxyConn::AddResponsePdu(uint32_t conn_uuid, CImPdu* pPdu)

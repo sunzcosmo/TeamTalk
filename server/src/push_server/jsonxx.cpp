@@ -302,7 +302,7 @@ bool Value::parse(std::istream& input, Value& value) {
         return true;
     }
     if (parse_null(input)) {
-        value.type_ = NULL_;
+        value.type_ = nullptr_;
         return true;
     }
     if (input.peek() == '[') {
@@ -515,7 +515,7 @@ namespace json {
         switch( t.type_ )
         {
             default:
-            case jsonxx::Value::NULL_:
+            case jsonxx::Value::nullptr_:
                 ss << "null";
                 return ss.str() + ",\n";
 
@@ -698,7 +698,7 @@ std::string tag( unsigned format, unsigned depth, const std::string &name, const
     switch( t.type_ )
     {
         default:
-        case jsonxx::Value::NULL_:
+        case jsonxx::Value::nullptr_:
             return tab + open_tag( format, '0', name, " /" ) + '\n';
 
         case jsonxx::Value::BOOL_:

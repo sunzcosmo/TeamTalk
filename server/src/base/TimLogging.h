@@ -33,7 +33,7 @@ public:
 
     class SourceFile {
     public:
-        SourceFile(const char* filename) : data_(file_name) {
+        SourceFile(const char* filename) : data_(filename) {
             const char* slash = strrchr(filename, '/');
             if (slash)
             {

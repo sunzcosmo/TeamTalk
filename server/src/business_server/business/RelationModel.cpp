@@ -17,7 +17,7 @@
 #include "GroupMessageModel.h"
 using namespace std;
 
-CRelationModel* CRelationModel::m_pInstance = NULL;
+CRelationModel* CRelationModel::m_pInstance = nullptr;
 
 CRelationModel::CRelationModel()
 {
@@ -95,7 +95,7 @@ uint32_t CRelationModel::addRelation(uint32_t nSmallId, uint32_t nBigId)
     CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_master");
     if (pDBConn)
     {
-        uint32_t nTimeNow = (uint32_t)time(NULL);
+        uint32_t nTimeNow = (uint32_t)time(nullptr);
         string strSql = "select id from IMRelationShip where smallId=" + int2string(nSmallId) + " and bigId="+ int2string(nBigId);
         CResultSet* pResultSet = pDBConn->ExecuteQuery(strSql.c_str());
         if(pResultSet && pResultSet->Next())
@@ -178,7 +178,7 @@ bool CRelationModel::removeRelation(uint32_t nRelationId)
     CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_master");
     if (pDBConn)
     {
-        uint32_t nNow = (uint32_t) time(NULL);
+        uint32_t nNow = (uint32_t) time(nullptr);
         string strSql = "update IMRelationShip set status = 1, updated="+int2string(nNow)+" where id=" + int2string(nRelationId);
         bRet = pDBConn->ExecuteUpdate(strSql.c_str());
         pDBManager->RelDBConn(pDBConn);

@@ -24,7 +24,7 @@
 using namespace IM::BaseDefine;
 
 
-CHandlerMap* CHandlerMap::s_handler_instance = NULL;
+CHandlerMap* CHandlerMap::s_handler_instance = nullptr;
 
 /**
  *  构造函数
@@ -122,7 +122,7 @@ pdu_handler_t CHandlerMap::GetHandler(uint32_t pdu_type)
 	if (it != m_handler_map.end()) {
 		return it->second;
 	} else {
-		return NULL;
+		return nullptr;
 	}
 }
 

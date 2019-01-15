@@ -73,7 +73,7 @@ uint32_t CUserInfo::GetCountByClientType(uint32_t client_type)
     }
 }
 
-bool CUserInfo::IsMsgConnNULL()
+bool CUserInfo::IsMsgConnnullptr()
 {
     if (m_ClientTypeList.size() == 0) {
         return true;

@@ -14,7 +14,7 @@
 #include "GroupMessageModel.h"
 
 
-CSessionModel* CSessionModel::m_pInstance = NULL;
+CSessionModel* CSessionModel::m_pInstance = nullptr;
 
 CSessionModel* CSessionModel::getInstance()
 {
@@ -131,7 +131,7 @@ bool CSessionModel::removeSession(uint32_t nSessionId)
     CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_master");
     if (pDBConn)
     {
-        uint32_t nNow = (uint32_t) time(NULL);
+        uint32_t nNow = (uint32_t) time(nullptr);
         string strSql = "update IMRecentSession set status = 1, updated="+int2string(nNow)+" where id=" + int2string(nSessionId);
         bRet = pDBConn->ExecuteUpdate(strSql.c_str());
         pDBManager->RelDBConn(pDBConn);
@@ -148,7 +148,7 @@ uint32_t CSessionModel::addSession(uint32_t nUserId, uint32_t nPeerId, uint32_t 
     uint32_t nSessionId = INVALID_VALUE;
     
     nSessionId = getSessionId(nUserId, nPeerId, nType, true);
-    uint32_t nTimeNow = time(NULL);
+    uint32_t nTimeNow = time(nullptr);
     CDBManager* pDBManager = CDBManager::getInstance();
     CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_master");
     if (pDBConn)

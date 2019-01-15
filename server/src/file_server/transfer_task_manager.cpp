@@ -23,14 +23,14 @@ TransferTaskManager::TransferTaskManager() {
 void TransferTaskManager::OnTimer(uint64_t tick) {
     for (TransferTaskMap::iterator it = transfer_tasks_.begin(); it != transfer_tasks_.end();) {
         BaseTransferTask* task = it->second;
-        if (task == NULL) {
+        if (task == nullptr) {
             transfer_tasks_.erase(it++);
             continue;
         }
         
         if (task->state() != kTransferTaskStateWaitingUpload &&
             task->state() == kTransferTaskStateTransferDone) {
-            long esp = time(NULL) - task->create_time();
+            long esp = time(nullptr) - task->create_time();
             if (esp > ConfigUtil::GetInstance()->GetTaskTimeout()) {
                 if (task->GetFromConn()) {
                     FileClientConn* conn = reinterpret_cast<FileClientConn*>(task->GetFromConn());
@@ -51,7 +51,7 @@ void TransferTaskManager::OnTimer(uint64_t tick) {
 }
 
 BaseTransferTask* TransferTaskManager::NewTransferTask(uint32_t trans_mode, const std::string& task_id, uint32_t from_user_id, uint32_t to_user_id, const std::string& file_name, uint32_t file_size) {
-    BaseTransferTask* transfer_task = NULL;
+    BaseTransferTask* transfer_task = nullptr;
     
     TransferTaskMap::iterator it = transfer_tasks_.find(task_id);
     if (it==transfer_tasks_.end()) {
@@ -88,7 +88,7 @@ bool TransferTaskManager::DeleteTransferTaskByConnClose(const std::string& task_
     if (it!=transfer_tasks_.end()) {
         BaseTransferTask* transfer_task = it->second;
         if (transfer_task->GetTransMode() == FILE_TYPE_ONLINE) {
-            if (transfer_task->GetFromConn() == NULL && transfer_task->GetToConn() == NULL) {
+            if (transfer_task->GetFromConn() == nullptr && transfer_task->GetToConn() == nullptr) {
                 delete transfer_task;
                 transfer_tasks_.erase(it);
                 rv = true;

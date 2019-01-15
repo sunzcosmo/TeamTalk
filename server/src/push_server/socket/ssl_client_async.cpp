@@ -14,8 +14,8 @@
 
 CSSLClientAsync::CSSLClientAsync(CIOLoop* pIO) : CTCPClientAsync(pIO)
 {
-    m_ctx = NULL;
-    m_ssl = NULL;
+    m_ctx = nullptr;
+    m_ssl = nullptr;
     m_bSSLConnectStatus = FALSE;
 }
 
@@ -40,7 +40,7 @@ BOOL CSSLClientAsync::InitSSL(const char* cert_file, const char* key_file, const
             {
                 SOCKET_IO_ERROR("init ssl: use certificate file failed.");
                 SSL_CTX_free(GetSSLCTX());
-                m_ctx = NULL;
+                m_ctx = nullptr;
                 return bRet;
             }
         }
@@ -53,7 +53,7 @@ BOOL CSSLClientAsync::InitSSL(const char* cert_file, const char* key_file, const
             {
                 SOCKET_IO_ERROR("init ssl: use private key file failed.");
                 SSL_CTX_free(GetSSLCTX());
-                m_ctx = NULL;
+                m_ctx = nullptr;
                 return bRet;
             }
         }
@@ -63,14 +63,14 @@ BOOL CSSLClientAsync::InitSSL(const char* cert_file, const char* key_file, const
         {
             SOCKET_IO_ERROR("init ssl: check private key file failed.");
             SSL_CTX_free(GetSSLCTX());
-            m_ctx = NULL;
+            m_ctx = nullptr;
             return bRet;
         }
         
-        if (NULL == m_ssl)
+        if (nullptr == m_ssl)
         {
             m_ssl = SSL_new(m_ctx);
-            if (NULL == m_ssl)
+            if (nullptr == m_ssl)
             {
                 SOCKET_IO_ERROR("init ssl, create SSL object failed.");
             }
@@ -108,12 +108,12 @@ void CSSLClientAsync::UnInitSSL()
             SOCKET_IO_ERROR("ssl shutdown failed, errno: %d.", nErrorCode);
         }
         SSL_free(m_ssl);
-        m_ssl = NULL;
+        m_ssl = nullptr;
     }
     if (m_ctx)
     {
         SSL_CTX_free(m_ctx);
-        m_ctx = NULL;
+        m_ctx = nullptr;
     }
 }
     
@@ -258,14 +258,14 @@ int32_t CSSLClientAsync::SendMsgAsync(const char *szBuf, int32_t nBufSize)
         {
             SOCKET_IO_DEBUG("send ssl data error, socket will be closed.");
             delete pBufferLoop;
-            pBufferLoop = NULL;
+            pBufferLoop = nullptr;
         }
         else
         {
             if (m_sendqueue.size() >= MAX_SEND_QUEUE_SIZE) {
                 SOCKET_IO_WARN("send ssl data error, buffer is overload.");
                 delete pBufferLoop;
-                pBufferLoop = NULL;
+                pBufferLoop = nullptr;
             }
             else
             {
@@ -295,7 +295,7 @@ int32_t CSSLClientAsync::SendMsgAsync(const char *szBuf, int32_t nBufSize)
         else
         {
             delete pBufferLoop;
-            pBufferLoop = NULL;
+            pBufferLoop = nullptr;
             SOCKET_IO_ERROR("send ssl data error, errno: %d.", nError);
             DoException(GetSocketID(), SOCKET_IO_SSL_SEND_FAILED);
         }
@@ -312,13 +312,13 @@ int32_t CSSLClientAsync::SendMsgAsync(const char *szBuf, int32_t nBufSize)
             SOCKET_IO_ERROR("send ssl data error, errno: %d.", nError);
         }
         delete pBufferLoop;
-        pBufferLoop = NULL;
+        pBufferLoop = nullptr;
         DoException(GetSocketID(), SOCKET_IO_SSL_SEND_FAILED);
     }
     else if (nRet != nBufSize)
     {
         int32_t nRest = nBufSize - nRet;
-        pBufferLoop->Read(NULL, nRet);
+        pBufferLoop->Read(nullptr, nRet);
         m_sendqueuemutex.Lock();
         m_sendqueue.push(pBufferLoop);
         m_sendqueuemutex.Unlock();
@@ -330,13 +330,13 @@ int32_t CSSLClientAsync::SendMsgAsync(const char *szBuf, int32_t nBufSize)
     else if (nRet == nBufSize)
     {
         delete pBufferLoop;
-        pBufferLoop = NULL;
+        pBufferLoop = nullptr;
         SOCKET_IO_DEBUG("send ssl data successed.");
     }
     else
     {
         delete pBufferLoop;
-        pBufferLoop = NULL;
+        pBufferLoop = nullptr;
     }
     return SOCKET_IO_RESULT_OK;
 }
@@ -394,7 +394,7 @@ int32_t CSSLClientAsync::SendBufferAsync()
         //将未成功的数据重新放置buffer loop中，待下次发送
         //对于ssl来说，应该不会出现此种情况
         int32_t nSize = 0;
-        pBufferLoop->Read(NULL, nRet);
+        pBufferLoop->Read(nullptr, nRet);
         SOCKET_IO_WARN("send ssl data, send size: %d, less than %d.", nRet, pBufferLoop->GetWriteOffset());
     }
     else
@@ -402,7 +402,7 @@ int32_t CSSLClientAsync::SendBufferAsync()
         SOCKET_IO_DEBUG("send ssl data from buffer successed.");
         m_sendqueuemutex.Lock();
         delete pBufferLoop;
-        pBufferLoop = NULL;
+        pBufferLoop = nullptr;
         m_sendqueue.pop();
         m_sendqueuemutex.Unlock();
     }

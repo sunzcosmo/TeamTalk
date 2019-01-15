@@ -55,7 +55,7 @@ BOOL CAPNSGateWayMsg::SerializeToArray()
         return bRet;
     }
     
-    m_databuffer.Write(NULL, GetHeadLength());
+    m_databuffer.Write(nullptr, GetHeadLength());
     
     //device token
     int8_t nItemID = APNS_ITEM_DEVICE_TOKEN;

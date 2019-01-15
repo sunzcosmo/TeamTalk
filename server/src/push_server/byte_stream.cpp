@@ -13,7 +13,7 @@ CByteStream::CByteStream(uchar_t* buf, uint32_t len)
 {
     m_pBuf = buf;
     m_len = len;
-    m_pSimpBuf = NULL;
+    m_pSimpBuf = nullptr;
     m_pos = 0;
 }
 
@@ -21,7 +21,7 @@ CByteStream::CByteStream(CSimpleBuffer* pSimpBuf, uint32_t pos)
 {
     m_pSimpBuf = pSimpBuf;
     m_pos = pos;
-    m_pBuf = NULL;
+    m_pBuf = nullptr;
     m_len = 0;
 }
 

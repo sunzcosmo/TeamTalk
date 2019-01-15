@@ -35,7 +35,7 @@ namespace HTTP {
     
 static ConnMap_t g_db_server_conn_map;
 
-static serv_info_t* g_db_server_list = NULL;
+static serv_info_t* g_db_server_list = nullptr;
 static uint32_t		g_db_server_count = 0;
 static uint32_t		g_db_server_login_count = 0;	// 到进行登录处理的DBServer的总连接数
     
@@ -44,7 +44,7 @@ static uint32_t		g_db_server_login_count = 0;	// 到进行登录处理的DBServe
 static void db_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	ConnMap_t::iterator it_old;
-	CDBServConn* pConn = NULL;
+	CDBServConn* pConn = nullptr;
 	uint64_t cur_time = get_tick_count();
 
 	for (ConnMap_t::iterator it = g_db_server_conn_map.begin(); it != g_db_server_conn_map.end(); ) {
@@ -83,14 +83,14 @@ void init_db_serv_conn(serv_info_t* server_list, uint32_t server_count, uint32_t
 
 	serv_init<CDBServConn>(g_db_server_list, g_db_server_count);
 
-	netlib_register_timer(db_server_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(db_server_conn_timer_callback, nullptr, 1000);
 }
 
 // get a random db server connection in the range [start_pos, stop_pos)
 static CDBServConn* get_db_server_conn_in_range(uint32_t start_pos, uint32_t stop_pos)
 {
 	uint32_t i = 0;
-	CDBServConn* pDbConn = NULL;
+	CDBServConn* pDbConn = nullptr;
 
 	// determine if there is a valid DB server connection
 	for (i = start_pos; i < stop_pos; i++) {
@@ -102,7 +102,7 @@ static CDBServConn* get_db_server_conn_in_range(uint32_t start_pos, uint32_t sto
 
 	// no valid DB server connection
 	if (i == stop_pos) {
-		return NULL;
+		return nullptr;
 	}
 
 	// return a random valid DB server connection
@@ -252,7 +252,7 @@ void CDBServConn::_HandleCreateGroupRsp(CImPdu *pPdu)
     }
     log("HandleCreateGroupRsp, req_id=%u, group_name=%s, result=%u", user_id, group_name.c_str(),result_code);
     
-    char* response_buf = NULL;
+    char* response_buf = nullptr;
     if (result_code != 0)
     {
         response_buf = PackSendCreateGroupResult(HTTP_ERROR_CREATE_GROUP, HTTP_ERROR_MSG[10].c_str(), group_id);
@@ -287,7 +287,7 @@ void CDBServConn::_HandleChangeMemberRsp(CImPdu *pPdu)
         log("no http connection.");
         return;
     }
-    char* response_buf = NULL;
+    char* response_buf = nullptr;
     if (result != 0)
     {
         response_buf = PackSendResult(HTTP_ERROR_CHANGE_MEMBER, HTTP_ERROR_MSG[11].c_str());

@@ -21,7 +21,7 @@
 #include "public_define.h"
 #include "SessionModel.h"
 
-CGroupModel* CGroupModel::m_pInstance = NULL;
+CGroupModel* CGroupModel::m_pInstance = nullptr;
 
 /**
  *  <#Description#>
@@ -267,7 +267,7 @@ bool CGroupModel::insertNewGroup(uint32_t nUserId, const string& strGroupName, c
         CPrepareStatement* pStmt = new CPrepareStatement();
         if (pStmt->Init(pDBConn->GetMysql(), strSql))
         {
-            uint32_t nCreated = (uint32_t)time(NULL);
+            uint32_t nCreated = (uint32_t)time(nullptr);
             uint32_t index = 0;
             uint32_t nStatus = 0;
             uint32_t nVersion = 1;
@@ -308,7 +308,7 @@ bool CGroupModel::insertNewMember(uint32_t nGroupId, set<uint32_t>& setUsers)
         CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_slave");
         if (pDBConn)
         {
-            uint32_t nCreated = (uint32_t)time(NULL);
+            uint32_t nCreated = (uint32_t)time(nullptr);
             // 获取 已经存在群里的用户
             string strClause;
             bool bFirst = true;
@@ -805,7 +805,7 @@ void CGroupModel::updateGroupChat(uint32_t nGroupId)
     CDBConn* pDBConn = pDBManager->GetDBConn("teamtalk_master");
     if(pDBConn)
     {
-        uint32_t nNow = (uint32_t)time(NULL);
+        uint32_t nNow = (uint32_t)time(nullptr);
         string strSql = "update IMGroup set lastChated=" + int2string(nNow) + " where id=" + int2string(nGroupId);
         pDBConn->ExecuteUpdate(strSql.c_str());
         pDBManager->RelDBConn(pDBConn);

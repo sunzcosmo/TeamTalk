@@ -24,7 +24,7 @@ static UserInfoMap_t g_user_map;
 
 CUserInfo* GetUserInfo(uint32_t user_id)
 {
-    CUserInfo* pUser = NULL;
+    CUserInfo* pUser = nullptr;
     UserInfoMap_t::iterator it = g_user_map.find(user_id);
     if (it != g_user_map.end()) {
         pUser = it->second;
@@ -47,7 +47,7 @@ void route_serv_timer_callback(void* callback_data, uint8_t msg, uint32_t handle
 
 void init_routeconn_timer_callback()
 {
-	netlib_register_timer(route_serv_timer_callback, NULL, 1000);
+	netlib_register_timer(route_serv_timer_callback, nullptr, 1000);
 }
 
 CRouteConn::CRouteConn()
@@ -80,7 +80,7 @@ void CRouteConn::Close()
         if (pUser->GetRouteConnCount() == 0)
         {
             delete pUser;
-            pUser = NULL;
+            pUser = nullptr;
             g_user_map.erase(it_old);
         }
     }
@@ -321,12 +321,12 @@ void CRouteConn::_UpdateUserStatus(uint32_t user_id, uint32_t status, uint32_t c
             if (status == USER_STATUS_OFFLINE)
             {
                 pUser->RemoveClientType(client_type);
-                if (pUser->IsMsgConnNULL())
+                if (pUser->IsMsgConnnullptr())
                 {
                     pUser->RemoveRouteConn(this);
                     if (pUser->GetRouteConnCount() == 0) {
                         delete pUser;
-                        pUser = NULL;
+                        pUser = nullptr;
                         g_user_map.erase(user_id);
                     }
                 }
@@ -349,7 +349,7 @@ void CRouteConn::_UpdateUserStatus(uint32_t user_id, uint32_t status, uint32_t c
     {
         if (status != USER_STATUS_OFFLINE) {
             CUserInfo* pUserInfo = new CUserInfo();
-            if (pUserInfo != NULL) {
+            if (pUserInfo != nullptr) {
                 pUserInfo->AddRouteConn(this);
                 pUserInfo->AddClientType(client_type);
                 g_user_map.insert(make_pair(user_id, pUserInfo));

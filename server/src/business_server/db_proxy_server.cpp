@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	}
 
 	signal(SIGPIPE, SIG_IGN);
-	srand(time(NULL));
+	srand(time(nullptr));
 
 	CacheManager* pCacheManager = CacheManager::getInstance();
 	if (!pCacheManager) {
@@ -150,7 +150,7 @@ puts("db init success");
 
 	CStrExplode listen_ip_list(listen_ip, ';');
 	for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
-		ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, proxy_serv_callback, NULL);
+		ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, proxy_serv_callback, nullptr);
 		if (ret == NETLIB_ERROR)
 			return ret;
 	}

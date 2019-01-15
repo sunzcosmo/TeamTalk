@@ -121,18 +121,18 @@ const static char LOG_COLOR[LOG_LEVEL_FATAL + 1][50] = {
 class Log4zFileHandler
 {
 public:
-    Log4zFileHandler(){ _file = NULL; }
+    Log4zFileHandler(){ _file = nullptr; }
     ~Log4zFileHandler(){ close(); }
-    inline bool isOpen(){ return _file != NULL; }
+    inline bool isOpen(){ return _file != nullptr; }
     inline bool open(const char *path, const char * mod)
     {
-        if (_file != NULL){fclose(_file);_file = NULL;}
+        if (_file != nullptr){fclose(_file);_file = nullptr;}
         _file = fopen(path, mod);
-        return _file != NULL;
+        return _file != nullptr;
     }
     inline void close()
     {
-        if (_file != NULL){fclose(_file);_file = NULL;}
+        if (_file != nullptr){fclose(_file);_file = nullptr;}
     }
     inline void write(const char * data, size_t len)
     {
@@ -149,7 +149,7 @@ public:
     inline std::string readLine()
     {
         char buf[500] = { 0 };
-        if (_file && fgets(buf, 500, _file) != NULL)
+        if (_file && fgets(buf, 500, _file) != nullptr)
         {
             return std::string(buf);
         }
@@ -275,7 +275,7 @@ void * threadProc(void * pParam)
 {
     ThreadHelper * p = (ThreadHelper *) pParam;
     p->run();
-    return NULL;
+    return nullptr;
 }
 #endif
 
@@ -791,14 +791,14 @@ bool isDirectory(std::string path)
     return PathIsDirectoryA(path.c_str()) ? true : false;
 #else
     DIR * pdir = opendir(path.c_str());
-    if (pdir == NULL)
+    if (pdir == nullptr)
     {
         return false;
     }
     else
     {
         closedir(pdir);
-        pdir = NULL;
+        pdir = nullptr;
         return true;
     }
 #endif
@@ -820,7 +820,7 @@ bool createRecursionDir(std::string path)
         {
             bool ret = false;
 #ifdef WIN32
-            ret = CreateDirectoryA(cur.c_str(), NULL) ? true : false;
+            ret = CreateDirectoryA(cur.c_str(), nullptr) ? true : false;
 #else
             ret = (mkdir(cur.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) == 0);
 #endif
@@ -856,7 +856,7 @@ std::string getProcessName()
     std::string name = "MainLog";
     char buf[260] = {0};
 #ifdef WIN32
-    if (GetModuleFileNameA(NULL, buf, 259) > 0)
+    if (GetModuleFileNameA(nullptr, buf, 259) > 0)
     {
         name = buf;
     }
@@ -950,9 +950,9 @@ void LockHelper::unLock()
 SemHelper::SemHelper()
 {
 #ifdef WIN32
-    _hSem = NULL;
+    _hSem = nullptr;
 #elif defined(__APPLE__)
-    _semid = NULL;
+    _semid = nullptr;
 #else
     _isCreate = false;
 #endif
@@ -961,16 +961,16 @@ SemHelper::SemHelper()
 SemHelper::~SemHelper()
 {
 #ifdef WIN32
-    if (_hSem != NULL)
+    if (_hSem != nullptr)
     {
         CloseHandle(_hSem);
-        _hSem = NULL;
+        _hSem = nullptr;
     }
 #elif defined(__APPLE__)
     if (_semid)
     {
         dispatch_release(_semid);
-        _semid = NULL;
+        _semid = nullptr;
     }
 #else
     if (_isCreate)
@@ -993,8 +993,8 @@ bool SemHelper::create(int initcount)
     {
         return false;
     }
-    _hSem = CreateSemaphore(NULL, initcount, 64, NULL);
-    if (_hSem == NULL)
+    _hSem = CreateSemaphore(nullptr, initcount, 64, nullptr);
+    if (_hSem == nullptr)
     {
         return false;
     }
@@ -1038,7 +1038,7 @@ bool SemHelper::wait(int timeout)
     else
     {
         struct timeval tm;
-        gettimeofday(&tm, NULL);
+        gettimeofday(&tm, nullptr);
         long long endtime = tm.tv_sec *1000 + tm.tv_usec/1000 + timeout;
         do
         {
@@ -1049,7 +1049,7 @@ bool SemHelper::wait(int timeout)
                 return true;
             }
             struct timeval tv_cur;
-            gettimeofday(&tv_cur, NULL);
+            gettimeofday(&tv_cur, nullptr);
             if (tv_cur.tv_sec*1000 + tv_cur.tv_usec/1000 > endtime)
             {
                 return false;
@@ -1073,7 +1073,7 @@ bool SemHelper::wait(int timeout)
 bool SemHelper::post()
 {
 #ifdef WIN32
-    return ReleaseSemaphore(_hSem, 1, NULL) ? true : false;
+    return ReleaseSemaphore(_hSem, 1, nullptr) ? true : false;
 #elif defined(__APPLE__)
     return dispatch_semaphore_signal(_semid) == 0;
 #else
@@ -1088,7 +1088,7 @@ bool SemHelper::post()
 bool ThreadHelper::start()
 {
 #ifdef WIN32
-    unsigned long long ret = _beginthreadex(NULL, 0, threadProc, (void *) this, 0, NULL);
+    unsigned long long ret = _beginthreadex(nullptr, 0, threadProc, (void *) this, 0, nullptr);
     
     if (ret == -1 || ret == 0)
     {
@@ -1097,7 +1097,7 @@ bool ThreadHelper::start()
     }
     _hThreadID = ret;
 #else
-    int ret = pthread_create(&_phtreadID, NULL, threadProc, (void*)this);
+    int ret = pthread_create(&_phtreadID, nullptr, threadProc, (void*)this);
     if (ret != 0)
     {
         std::cout <<"log4z: create log4z thread error! \r\n" << std::endl;
@@ -1115,7 +1115,7 @@ bool ThreadHelper::wait()
         return false;
     }
 #else
-    if (pthread_join(_phtreadID, NULL) != 0)
+    if (pthread_join(_phtreadID, nullptr) != 0)
     {
         return false;
     }
@@ -1257,7 +1257,7 @@ bool LogerManager::configFromString(const char* configContent)
 //! create with overwriting
 LoggerId LogerManager::createLogger(const char* key)
 {
-    if (key == NULL)
+    if (key == nullptr)
     {
         return LOG4Z_INVALID_LOGGER_ID;
     }
@@ -1357,7 +1357,7 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * log, const char 
         pLog->_precise = (unsigned int)(now%1000);
 #else
         struct timeval tm;
-        gettimeofday(&tm, NULL);
+        gettimeofday(&tm, nullptr);
         pLog->_time = tm.tv_sec;
         pLog->_precise = tm.tv_usec/1000;
 #endif
@@ -1366,7 +1366,7 @@ bool LogerManager::pushLog(LoggerId id, int level, const char * log, const char 
     //format log
     {
         tm tt = timeToTm(pLog->_time);
-        if (file == NULL || !_loggers[pLog->_id]._fileLine)
+        if (file == nullptr || !_loggers[pLog->_id]._fileLine)
         {
 #ifdef WIN32
             int ret = _snprintf_s(pLog->_content, LOG4Z_LOG_BUF_SIZE, _TRUNCATE, "%d-%02d-%02d %02d:%02d:%02d.%03d %s %s \r\n",
@@ -1539,7 +1539,7 @@ bool LogerManager::setLoggerName(LoggerId id, const char * name)
     //the name by main logger is the process name and it's can't change.
     if (id == LOG4Z_MAIN_LOGGER_ID) return false;
     
-    if (name == NULL || strlen(name) == 0)
+    if (name == nullptr || strlen(name) == 0)
     {
         return false;
     }
@@ -1556,7 +1556,7 @@ bool LogerManager::setLoggerPath(LoggerId id, const char * path)
 {
     if (id <0 || id > _lastId) return false;
     std::string copyPath;
-    if (path == NULL || strlen(path) == 0)
+    if (path == nullptr || strlen(path) == 0)
     {
         copyPath = LOG4Z_DEFAULT_PATH;
     }
@@ -1727,7 +1727,7 @@ bool LogerManager::popLog(LogData *& log)
 void LogerManager::run()
 {
     _runing = true;
-    pushLog(0, LOG_LEVEL_ALARM, "-----------------  log4z thread started!   ----------------------------", NULL, 0);
+    pushLog(0, LOG_LEVEL_ALARM, "-----------------  log4z thread started!   ----------------------------", nullptr, 0);
     for (int i = 0; i <= _lastId; i++)
     {
         if (_loggers[i]._enable)
@@ -1739,16 +1739,16 @@ void LogerManager::run()
             <<" path=" <<_loggers[i]._path
             <<" level=" << _loggers[i]._level
             <<" display=" << _loggers[i]._display;
-            pushLog(0, LOG_LEVEL_ALARM, ss.str().c_str(), NULL, 0);
+            pushLog(0, LOG_LEVEL_ALARM, ss.str().c_str(), nullptr, 0);
         }
     }
     
     _semaphore.post();
     
     
-    LogData * pLog = NULL;
+    LogData * pLog = nullptr;
     int needFlush[LOG4Z_LOGGER_MAX] = {0};
-    time_t lastCheckUpdate = time(NULL);
+    time_t lastCheckUpdate = time(nullptr);
     while (true)
     {
         while(popLog(pLog))
@@ -1760,7 +1760,7 @@ void LogerManager::run()
             if (!curLogger._enable || pLog->_level <curLogger._level  )
             {
                 delete pLog;
-                pLog = NULL;
+                pLog = nullptr;
                 continue;
             }
             
@@ -1782,7 +1782,7 @@ void LogerManager::run()
                 if (!openLogger(pLog))
                 {
                     delete pLog;
-                    pLog = NULL;
+                    pLog = nullptr;
                     continue;
                 }
                 
@@ -1799,7 +1799,7 @@ void LogerManager::run()
             }
             
             delete pLog;
-            pLog = NULL;
+            pLog = nullptr;
         }
         
         for (int i=0; i<=_lastId; i++)
@@ -1824,10 +1824,10 @@ void LogerManager::run()
             break;
         }
         
-        if (_hotUpdateInterval != 0 && time(NULL) - lastCheckUpdate > _hotUpdateInterval)
+        if (_hotUpdateInterval != 0 && time(nullptr) - lastCheckUpdate > _hotUpdateInterval)
         {
             updateConfig();
-            lastCheckUpdate = time(NULL);
+            lastCheckUpdate = time(nullptr);
         }
         
         

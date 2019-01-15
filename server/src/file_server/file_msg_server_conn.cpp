@@ -42,7 +42,7 @@ void FileMsgServerConnTimerCallback(void* callback_data, uint8_t msg, uint32_t h
 }
 
 void InitializeFileMsgServerConn() {
-    netlib_register_timer(FileMsgServerConnTimerCallback, NULL, 1000);
+    netlib_register_timer(FileMsgServerConnTimerCallback, nullptr, 1000);
 }
 
 FileMsgServerConn::FileMsgServerConn()
@@ -148,7 +148,7 @@ void FileMsgServerConn::_HandleMsgFileTransferReq(CImPdu* pdu) {
                                                                                               transfer_req.file_name(),
                                                                                               transfer_req.file_size());
         
-        if (transfer_task == NULL) {
+        if (transfer_task == nullptr) {
             // 创建未成功
             // close connection with msg svr
             // need_close = true;

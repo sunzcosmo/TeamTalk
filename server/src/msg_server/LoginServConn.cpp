@@ -28,7 +28,7 @@ static uint32_t g_max_conn_cnt;
 void login_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
 	ConnMap_t::iterator it_old;
-	CLoginServConn* pConn = NULL;
+	CLoginServConn* pConn = nullptr;
 	uint64_t cur_time = get_tick_count();
 
 	for (ConnMap_t::iterator it = g_login_server_conn_map.begin(); it != g_login_server_conn_map.end(); ) {
@@ -56,13 +56,13 @@ void init_login_serv_conn(serv_info_t* server_list, uint32_t server_count, const
 	g_msg_server_port = msg_server_port;
 	g_max_conn_cnt = max_conn_cnt;
 
-	netlib_register_timer(login_server_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(login_server_conn_timer_callback, nullptr, 1000);
 }
 
 // if there is one LoginServer available, return true
 bool is_login_server_available()
 {
-	CLoginServConn* pConn = NULL;
+	CLoginServConn* pConn = nullptr;
 
 	for (uint32_t i = 0; i < g_login_server_count; i++) {
 		pConn = (CLoginServConn*)g_login_server_list[i].serv_conn;
@@ -76,7 +76,7 @@ bool is_login_server_available()
 
 void send_to_all_login_server(CImPdu* pPdu)
 {
-	CLoginServConn* pConn = NULL;
+	CLoginServConn* pConn = nullptr;
 
 	for (uint32_t i = 0; i < g_login_server_count; i++) {
 		pConn = (CLoginServConn*)g_login_server_list[i].serv_conn;

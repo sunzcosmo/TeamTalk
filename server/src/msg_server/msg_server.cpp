@@ -48,7 +48,7 @@ int main(const int argc, const char* const argv[])
     // Ignore SIGPIPE.
 	signal(SIGPIPE, SIG_IGN);
 
-	srand(time(NULL));
+	srand(time(nullptr));
 
 	CConfigFileReader config_file("msgserver.conf");
 
@@ -144,7 +144,7 @@ int main(const int argc, const char* const argv[])
 
 	CStrExplode listen_ip_list(listen_ip, ';');
 	for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
-		net_ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, msg_serv_callback, NULL);
+		net_ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, msg_serv_callback, nullptr);
 		if (net_ret == NETLIB_ERROR)
 			return net_ret;
 	}

@@ -3,7 +3,7 @@
 
 #define MIN_TIMER_DURATION	100	// 100 miliseconds
 
-CEventDispatch* CEventDispatch::m_pEventDispatch = NULL;
+CEventDispatch* CEventDispatch::m_pEventDispatch = nullptr;
 
 CEventDispatch::CEventDispatch()
 {
@@ -87,7 +87,7 @@ void CEventDispatch::_CheckTimer()
 		if (curr_tick >= pItem->next_tick)
 		{
 			pItem->next_tick += pItem->interval;
-			pItem->callback(pItem->user_data, NETLIB_MSG_TIMER, 0, NULL);
+			pItem->callback(pItem->user_data, NETLIB_MSG_TIMER, 0, nullptr);
 		}
 	}
 }
@@ -104,13 +104,13 @@ void CEventDispatch::_CheckLoop()
 {
     for (list<TimerItem*>::iterator it = m_loop_list.begin(); it != m_loop_list.end(); it++) {
         TimerItem* pItem = *it;
-        pItem->callback(pItem->user_data, NETLIB_MSG_LOOP, 0, NULL);
+        pItem->callback(pItem->user_data, NETLIB_MSG_LOOP, 0, nullptr);
     }
 }
 
 CEventDispatch* CEventDispatch::Instance()
 {
-	if (m_pEventDispatch == NULL)
+	if (m_pEventDispatch == nullptr)
 	{
 		m_pEventDispatch = new CEventDispatch();
 	}
@@ -254,14 +254,14 @@ void CEventDispatch::AddEvent(SOCKET fd, uint8_t socket_event)
 
 	if ((socket_event & SOCKET_READ) != 0)
 	{
-		EV_SET(&ke, fd, EVFILT_READ, EV_ADD, 0, 0, NULL);
-		kevent(m_kqfd, &ke, 1, NULL, 0, NULL);
+		EV_SET(&ke, fd, EVFILT_READ, EV_ADD, 0, 0, nullptr);
+		kevent(m_kqfd, &ke, 1, nullptr, 0, nullptr);
 	}
 
 	if ((socket_event & SOCKET_WRITE) != 0)
 	{
-		EV_SET(&ke, fd, EVFILT_WRITE, EV_ADD, 0, 0, NULL);
-		kevent(m_kqfd, &ke, 1, NULL, 0, NULL);
+		EV_SET(&ke, fd, EVFILT_WRITE, EV_ADD, 0, 0, nullptr);
+		kevent(m_kqfd, &ke, 1, nullptr, 0, nullptr);
 	}
 }
 
@@ -271,14 +271,14 @@ void CEventDispatch::RemoveEvent(SOCKET fd, uint8_t socket_event)
 
 	if ((socket_event & SOCKET_READ) != 0)
 	{
-		EV_SET(&ke, fd, EVFILT_READ, EV_DELETE, 0, 0, NULL);
-		kevent(m_kqfd, &ke, 1, NULL, 0, NULL);
+		EV_SET(&ke, fd, EVFILT_READ, EV_DELETE, 0, 0, nullptr);
+		kevent(m_kqfd, &ke, 1, nullptr, 0, nullptr);
 	}
 
 	if ((socket_event & SOCKET_WRITE) != 0)
 	{
-		EV_SET(&ke, fd, EVFILT_WRITE, EV_DELETE, 0, 0, NULL);
-		kevent(m_kqfd, &ke, 1, NULL, 0, NULL);
+		EV_SET(&ke, fd, EVFILT_WRITE, EV_DELETE, 0, 0, nullptr);
+		kevent(m_kqfd, &ke, 1, nullptr, 0, nullptr);
 	}
 }
 
@@ -296,7 +296,7 @@ void CEventDispatch::StartDispatch(uint32_t wait_timeout)
     
     while (running)
 	{
-		nfds = kevent(m_kqfd, NULL, 0, events, 1024, &timeout);
+		nfds = kevent(m_kqfd, nullptr, 0, events, 1024, &timeout);
 
 		for (int i = 0; i < nfds; i++)
 		{
@@ -345,7 +345,7 @@ void CEventDispatch::AddEvent(SOCKET fd, uint8_t socket_event)
 
 void CEventDispatch::RemoveEvent(SOCKET fd, uint8_t socket_event)
 {
-	if (epoll_ctl(m_epfd, EPOLL_CTL_DEL, fd, NULL) != 0)
+	if (epoll_ctl(m_epfd, EPOLL_CTL_DEL, fd, nullptr) != 0)
 	{
 		log("epoll_ctl failed, errno=%d", errno);
 	}

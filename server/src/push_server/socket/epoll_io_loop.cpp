@@ -76,7 +76,7 @@ void CEpollIOLoop::Run()
 			{
                 SOCKET_IO_DEBUG("socket read event.");
 				CBaseIOStream* pIOStream = _GetHandlerBySock(sock);
-				if (pIOStream != NULL)
+				if (pIOStream != nullptr)
 				{
 					if (pIOStream->GetSockType() == SOCK_TCP_SERVER)
 					{
@@ -99,7 +99,7 @@ void CEpollIOLoop::Run()
 			{
                 SOCKET_IO_DEBUG("socket write event.");
 				CBaseIOStream* pIOStream = _GetHandlerBySock(sock);
-				if (pIOStream != NULL)
+				if (pIOStream != nullptr)
 				{
 					if (pIOStream->GetSockType() == SOCK_TCP_CLIENT && pIOStream->CheckConnect())
 					{
@@ -113,7 +113,7 @@ void CEpollIOLoop::Run()
 			{
                 SOCKET_IO_DEBUG("socket error event.");
 				CBaseIOStream* pIOStream = _GetHandlerBySock(sock);
-                if (pIOStream != NULL)
+                if (pIOStream != nullptr)
                 {
                     if (pIOStream->GetSockType() == SOCK_TCP_CLIENT && pIOStream->CheckConnect())
                     {
@@ -143,7 +143,7 @@ void CEpollIOLoop::Run()
 		}
         if (events) {
             delete []events;
-            events = NULL;
+            events = nullptr;
         }
 	}
 }
@@ -189,7 +189,7 @@ void CEpollIOLoop::Remove_Handler( CBaseIOStream* piostream )
 */
 void CEpollIOLoop::Add_WriteEvent( CBaseIOStream* piostream )
 {
-	if (NULL == piostream)
+	if (nullptr == piostream)
 	{
 		return;
 	}
@@ -230,7 +230,7 @@ void CEpollIOLoop::Add_WriteEvent( CBaseIOStream* piostream )
 */
 void CEpollIOLoop::Remove_WriteEvent( CBaseIOStream* piostream )
 {
-	if (NULL == piostream)
+	if (nullptr == piostream)
 	{
 		return;
 	}

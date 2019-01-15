@@ -134,14 +134,14 @@ int32_t CTCPSessionAsync::SendBufferAsync()
 	{
 		int32_t nSize = 0;
 		//将未成功的数据重新放置buffer loop中，待下次发送
-        pBufferLoop->Read(NULL, nRet);
+        pBufferLoop->Read(nullptr, nRet);
         SOCKET_IO_INFO("send tcp data, send size: %d, less than %d.", nRet, pBufferLoop->GetWriteOffset());
 	}
 	else
 	{
 		m_sendqueuemutex.Lock();
         delete pBufferLoop;
-        pBufferLoop = NULL;
+        pBufferLoop = nullptr;
 		m_sendqueue.pop();
 		m_sendqueuemutex.Unlock();
 	}

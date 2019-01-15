@@ -59,7 +59,7 @@ void md5(const uint8_t *initial_msg, size_t initial_len, uint8_t *digest) {
     uint32_t h0, h1, h2, h3;
 
     // Message (to prepare)
-    uint8_t *msg = NULL;
+    uint8_t *msg = nullptr;
 
     size_t new_len, offset;
     uint32_t w[16];

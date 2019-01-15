@@ -100,7 +100,7 @@ namespace DB_PROXY {
             IM::BaseDefine::MsgType nMsgType = msg.msg_type();
             uint32_t nMsgLen = msg.msg_data().length();
             
-            uint32_t nNow = (uint32_t)time(NULL);
+            uint32_t nNow = (uint32_t)time(nullptr);
             if (IM::BaseDefine::MsgType_IsValid(nMsgType))
             {
                 if(nMsgLen != 0)

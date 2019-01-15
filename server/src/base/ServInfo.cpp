@@ -29,7 +29,7 @@ serv_info_t* read_server_config(CConfigFileReader* config_file, const char* serv
 	}
 
 	if (server_count == 0) {
-		return NULL;
+		return nullptr;
 	}
 
 	serv_info_t* server_list = new serv_info_t [server_count];

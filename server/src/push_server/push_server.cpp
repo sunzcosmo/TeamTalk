@@ -15,9 +15,9 @@ CPushServer::CPushServer(CEpollIOLoop& io) : m_io(io)
 
 CPushServer::~CPushServer()
 {
-    if (m_pServer != NULL) {
+    if (m_pServer != nullptr) {
         delete m_pServer;
-        m_pServer = NULL;
+        m_pServer = nullptr;
     }
 }
 

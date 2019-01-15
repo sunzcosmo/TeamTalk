@@ -20,9 +20,9 @@ CAutoDB::CAutoDB(const char* pDBName, CDBConn** pDBConn)
 
 CAutoDB::~CAutoDB()
 {
-    if (m_pDBConn != NULL) {
+    if (m_pDBConn != nullptr) {
         CDBManager::getInstance()->RelDBConn(m_pDBConn);
-        m_pDBConn = NULL;
+        m_pDBConn = nullptr;
     }
 }
 
@@ -34,8 +34,8 @@ CAutoCache::CAutoCache(const char* pCacheName, CacheConn** pCacheConn)
 
 CAutoCache::~CAutoCache()
 {
-    if (m_pCacheConn != NULL) {
+    if (m_pCacheConn != nullptr) {
         CacheManager::getInstance()->RelCacheConn(m_pCacheConn);
-        m_pCacheConn = NULL;
+        m_pCacheConn = nullptr;
     }
 }

@@ -24,7 +24,7 @@
 static CLock* g_pLock = new CLock();
 static CRWLock *g_pRWDeptLock = new CRWLock();
 
-CSyncCenter* CSyncCenter::m_pInstance = NULL;
+CSyncCenter* CSyncCenter::m_pInstance = nullptr;
 bool CSyncCenter::m_bSyncGroupChatRuning = false;
 /**
  *  单例
@@ -34,7 +34,7 @@ bool CSyncCenter::m_bSyncGroupChatRuning = false;
 CSyncCenter* CSyncCenter::getInstance()
 {
     CAutoLock autoLock(g_pLock);
-    if(m_pInstance == NULL)
+    if(m_pInstance == nullptr)
     {
         m_pInstance = new CSyncCenter();
     }
@@ -46,7 +46,7 @@ CSyncCenter* CSyncCenter::getInstance()
  */
 CSyncCenter::CSyncCenter()
 :m_nGroupChatThreadId(0),
-m_nLastUpdateGroup(time(NULL)),
+m_nLastUpdateGroup(time(nullptr)),
 m_bSyncGroupChatWaitting(true),
 m_pLockGroupChat(new CLock())
 //m_pLock(new CLock())
@@ -59,11 +59,11 @@ m_pLockGroupChat(new CLock())
  */
 CSyncCenter::~CSyncCenter()
 {
-    if(m_pLockGroupChat != NULL)
+    if(m_pLockGroupChat != nullptr)
     {
         delete m_pLockGroupChat;
     }
-    if(m_pCondGroupChat != NULL)
+    if(m_pCondGroupChat != nullptr)
     {
         delete m_pCondGroupChat;
     }
@@ -81,9 +81,9 @@ string CSyncCenter::getDeptName(uint32_t nDeptId)
 {
     CAutoRWLock autoLock(g_pRWDeptLock);
     string strDeptName;
-    DBDeptInfo_t* pDept = NULL;;
+    DBDeptInfo_t* pDept = nullptr;;
     getDept(nDeptId, &pDept);
-    if (pDept != NULL) {
+    if (pDept != nullptr) {
         strDeptName =  pDept->strName;
     }
     return strDeptName;
@@ -94,9 +94,9 @@ string CSyncCenter::getDeptName(uint32_t nDeptId)
 void CSyncCenter::startSync()
 {
 #ifdef _WIN32
-    (void)CreateThread(NULL, 0, doSyncGroupChat, NULL, 0, &m_nGroupChatThreadId);
+    (void)CreateThread(nullptr, 0, doSyncGroupChat, nullptr, 0, &m_nGroupChatThreadId);
 #else
-    (void)pthread_create(&m_nGroupChatThreadId, NULL, doSyncGroupChat, NULL);
+    (void)pthread_create(&m_nGroupChatThreadId, nullptr, doSyncGroupChat, nullptr);
 #endif
 }
 
@@ -133,7 +133,7 @@ void CSyncCenter::init()
         }
         else
         {
-            updateTotalUpdate(time(NULL));
+            updateTotalUpdate(time(nullptr));
         }
         if(strLastUpdateGroup.empty())
         {
@@ -141,7 +141,7 @@ void CSyncCenter::init()
         }
         else
         {
-            updateLastUpdateGroup(time(NULL));
+            updateLastUpdateGroup(time(nullptr));
         }
     }
     else
@@ -200,9 +200,9 @@ void CSyncCenter::updateLastUpdateGroup(uint32_t nUpdated)
 /**
  *  同步群组聊天信息
  *
- *  @param arg NULL
+ *  @param arg nullptr
  *
- *  @return NULL
+ *  @return nullptr
  */
 void* CSyncCenter::doSyncGroupChat(void* arg)
 {
@@ -234,7 +234,7 @@ void* CSyncCenter::doSyncGroupChat(void* arg)
         {
             log("no db connection for teamtalk_slave");
         }
-        m_pInstance->updateLastUpdateGroup(time(NULL));
+        m_pInstance->updateLastUpdateGroup(time(nullptr));
         for (auto it=mapChangedGroup.begin(); it!=mapChangedGroup.end(); ++it)
         {
             uint32_t nGroupId =it->first;
@@ -260,5 +260,5 @@ void* CSyncCenter::doSyncGroupChat(void* arg)
     } while (m_pInstance->m_bSyncGroupChatWaitting && !(m_pInstance->m_pCondGroupChat->waitTime(5*1000)));
 //    } while(m_pInstance->m_bSyncGroupChatWaitting);
     m_bSyncGroupChatRuning = false;
-    return NULL;
+    return nullptr;
 }

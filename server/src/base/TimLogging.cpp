@@ -15,7 +15,7 @@
 namespace tim {
 
   
-const char* SeverityLevelName[NUM_LOG_LEVELS] =
+const char* SeverityLevelName[tim::Logger::SeverityLevel::NUM_LOG_LEVELS] =
 {
     "TRACE",
     "DEBUG",
@@ -247,7 +247,8 @@ void format_log(const char* fmt, ...)
     size_t input_len = strlen(fmt);
 
     if(input_len > TIM_MAX_LOG_FORMAT_LEN) {
-      LOG_FATAL<<"Input log format length is bigger than legal length.";
+      LOG_ERROR<<"Input log format length is bigger than legal length.";
+      return;
     }
 
     char log_out[TIM_MAX_LOG_FORMAT_LEN];

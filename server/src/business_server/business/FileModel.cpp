@@ -11,7 +11,7 @@
 #include "FileModel.h"
 #include "../DBPool.h"
 
-CFileModel* CFileModel::m_pInstance = NULL;
+CFileModel* CFileModel::m_pInstance = nullptr;
 
 CFileModel::CFileModel()
 {
@@ -25,7 +25,7 @@ CFileModel::~CFileModel()
 
 CFileModel* CFileModel::getInstance()
 {
-    if (m_pInstance == NULL) {
+    if (m_pInstance == nullptr) {
         m_pInstance = new CFileModel();
     }
     return m_pInstance;
@@ -77,7 +77,7 @@ void CFileModel::addOfflineFile(uint32_t fromId, uint32_t toId, string& taskId, 
         if (pStmt->Init(pDBConn->GetMysql(), strSql))
         {
             uint32_t status = 0;
-            uint32_t nCreated = (uint32_t)time(NULL);
+            uint32_t nCreated = (uint32_t)time(nullptr);
             
             uint32_t index = 0;
             pStmt->SetParam(index++, fromId);

@@ -16,7 +16,7 @@
 using namespace std;
 
 //AudioModel
-CAudioModel* CAudioModel::m_pInstance = NULL;
+CAudioModel* CAudioModel::m_pInstance = nullptr;
 
 /**
  *  构造函数

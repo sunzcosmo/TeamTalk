@@ -22,8 +22,8 @@ using namespace std;
 using namespace msfs;
 
 
-FileManager* FileManager::m_instance = NULL;
-FileManager* g_fileManager = NULL;
+FileManager* FileManager::m_instance = nullptr;
+FileManager* g_fileManager = nullptr;
 CConfigFileReader config_file("msfs.conf");
 CThreadPool g_PostThreadPool;
 CThreadPool g_GetThreadPool;
@@ -173,7 +173,7 @@ int main(int argc, char* argv[])
     for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++)
     {
         ret = netlib_listen(listen_ip_list.GetItem(i), listen_port,
-                http_callback, NULL);
+                http_callback, nullptr);
         if (ret == NETLIB_ERROR)
             return ret;
     }

@@ -11,11 +11,11 @@
 #include "DepartModel.h"
 #include "../DBPool.h"
 
-CDepartModel* CDepartModel::m_pInstance = NULL;
+CDepartModel* CDepartModel::m_pInstance = nullptr;
 
 CDepartModel* CDepartModel::getInstance()
 {
-    if(NULL == m_pInstance)
+    if(nullptr == m_pInstance)
     {
         m_pInstance = new CDepartModel();
     }

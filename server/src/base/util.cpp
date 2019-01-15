@@ -6,7 +6,7 @@ CSLog g_imlog = CSLog(LOG_MODULE_IM);
 
 CRefObject::CRefObject()
 {
-	m_lock = NULL;
+	m_lock = nullptr;
 	m_refCount = 1;
 }
 
@@ -65,7 +65,7 @@ uint64_t get_tick_count()
 	struct timeval tval;
 	uint64_t ret_tick;
 
-	gettimeofday(&tval, NULL);
+	gettimeofday(&tval, nullptr);
 
 	ret_tick = tval.tv_sec * 1000L + tval.tv_usec / 1000L;
 	return ret_tick;
@@ -131,9 +131,9 @@ CStrExplode::~CStrExplode()
 
 char* replaceStr(char* pSrc, char oldChar, char newChar)
 {
-    if(NULL == pSrc)
+    if(nullptr == pSrc)
     {
-        return NULL;
+        return nullptr;
     }
     
     char *pHead = pSrc;
@@ -281,13 +281,13 @@ int64_t get_file_size(const char *path)
 
 const char*  memfind(const char *src_str,size_t src_len, const char *sub_str, size_t sub_len, bool flag)
 {
-    if(NULL == src_str || NULL == sub_str || src_len <= 0)
+    if(nullptr == src_str || nullptr == sub_str || src_len <= 0)
     {
-        return NULL;
+        return nullptr;
     }
     if(src_len < sub_len)
     {
-        return NULL;
+        return nullptr;
     }
     const char *p;
     if (sub_len == 0)
@@ -300,7 +300,7 @@ const char*  memfind(const char *src_str,size_t src_len, const char *sub_str, si
         }
         else
         {
-            return NULL;
+            return nullptr;
         }
     }
     if(flag)
@@ -322,5 +322,5 @@ const char*  memfind(const char *src_str,size_t src_len, const char *sub_str, si
             
         }
     }
-    return NULL;
+    return nullptr;
 }

@@ -17,7 +17,7 @@ CCondition::CCondition(CLock* pLock):m_pLock(pLock)
     {
         assert(false);
     }
-    pthread_cond_init(&m_cond, NULL);
+    pthread_cond_init(&m_cond, nullptr);
 }
 CCondition::~CCondition()
 {
@@ -38,7 +38,7 @@ bool CCondition::waitTime(uint64_t nWaitTime)
     struct timespec sTime;
     uint64_t nSec = nTime / (1000000000);
     uint64_t nNsec = nTime % (1000000000);
-    sTime.tv_sec = time(NULL) + (uint32_t)nSec;
+    sTime.tv_sec = time(nullptr) + (uint32_t)nSec;
     sTime.tv_nsec = (uint32_t)nNsec;
     if(ETIMEDOUT == pthread_cond_timedwait(&m_cond, &m_pLock->getMutex(), &sTime))
     {

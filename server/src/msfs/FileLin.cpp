@@ -32,7 +32,7 @@ File::~File() {
 	if (m_opened) 
 		close();
 	delete [] m_path;
-	m_path = NULL;
+	m_path = nullptr;
 }
 
 u64 File::isExist(bool *exist) {
@@ -206,7 +206,7 @@ u64 File::isDirectory(bool *isDir) {
 	
 u64 File::getFileNum(int *fileNum) {
 	DIR *dp;
-	struct dirent *ep = NULL;
+	struct dirent *ep = nullptr;
 	string dir(m_path);
 	if (dir[dir.length() - 1] != '/' && dir[dir.length() - 1] != '\\')
 	dir += "/";

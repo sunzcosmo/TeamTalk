@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 	}
     
 	signal(SIGPIPE, SIG_IGN);
-	srand(time(NULL));
+	srand(time(nullptr));
     
 	log("MsgServer max files can open: %d ", getdtablesize());
     
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 		db_server_count2 = db_server_count * concurrent_db_conn_cnt;
 	}
 
-	serv_info_t* db_server_list2 = NULL;
+	serv_info_t* db_server_list2 = nullptr;
 	if (db_server_count2 > 0) {
 		db_server_list2 = new serv_info_t [ db_server_count2];
 		for (uint32_t i = 0; i < db_server_count2; i++) {
@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
     
 	CStrExplode listen_ip_list(listen_ip, ';');
 	for (uint32_t i = 0; i < listen_ip_list.GetItemCnt(); i++) {
-		ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, http_callback, NULL);
+		ret = netlib_listen(listen_ip_list.GetItem(i), listen_port, http_callback, nullptr);
 		if (ret == NETLIB_ERROR)
 			return ret;
 	}

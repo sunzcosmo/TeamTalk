@@ -51,7 +51,7 @@ CHttpClient::~CHttpClient(void)
 static size_t OnWriteData(void* buffer, size_t size, size_t nmemb, void* lpVoid)
 {
     string* str = dynamic_cast<string*>((string *)lpVoid);
-    if( NULL == str || NULL == buffer )
+    if( nullptr == str || nullptr == buffer )
     {
         return -1;
     }
@@ -65,7 +65,7 @@ CURLcode CHttpClient::Post(const string & strUrl, const string & strPost, string
 {
     CURLcode res;
     CURL* curl = curl_easy_init();
-    if(NULL == curl)
+    if(nullptr == curl)
     {
         return CURLE_FAILED_INIT;
     }
@@ -74,7 +74,7 @@ CURLcode CHttpClient::Post(const string & strUrl, const string & strPost, string
     curl_easy_setopt(curl, CURLOPT_FORBID_REUSE, 1);
     curl_easy_setopt(curl, CURLOPT_POST, 1);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, strPost.c_str());
-    curl_easy_setopt(curl, CURLOPT_READFUNCTION, NULL);
+    curl_easy_setopt(curl, CURLOPT_READFUNCTION, nullptr);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, OnWriteData);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&strResponse);
     curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
@@ -89,13 +89,13 @@ CURLcode CHttpClient::Get(const string & strUrl, string & strResponse)
 {
     CURLcode res;
     CURL* curl = curl_easy_init();
-    if(NULL == curl)
+    if(nullptr == curl)
     {
         return CURLE_FAILED_INIT;
     }
     
     curl_easy_setopt(curl, CURLOPT_URL, strUrl.c_str());
-    curl_easy_setopt(curl, CURLOPT_READFUNCTION, NULL);
+    curl_easy_setopt(curl, CURLOPT_READFUNCTION, nullptr);
     curl_easy_setopt(curl, CURLOPT_FORBID_REUSE, 1);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, OnWriteData);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&strResponse);
@@ -119,7 +119,7 @@ string CHttpClient::UploadByteFile(const string &strUrl, void* pData, int nSize)
     CURL* curl = curl_easy_init();
     if (!curl)
         return "";
-    struct curl_slist *headerlist = NULL;
+    struct curl_slist *headerlist = nullptr;
     headerlist = curl_slist_append(headerlist, "Content-Type: multipart/form-data; boundary=WebKitFormBoundary8riBH6S4ZsoT69so");
     // what URL that receives this POST
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headerlist);

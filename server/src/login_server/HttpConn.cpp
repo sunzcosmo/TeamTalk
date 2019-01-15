@@ -24,7 +24,7 @@ static uint32_t g_conn_handle_generator = 0;
 
 CHttpConn* FindHttpConnByHandle(uint32_t conn_handle)
 {
-    CHttpConn* pConn = NULL;
+    CHttpConn* pConn = nullptr;
     HttpConnMap_t::iterator it = g_http_conn_map.find(conn_handle);
     if (it != g_http_conn_map.end()) {
         pConn = it->second;
@@ -64,7 +64,7 @@ void httpconn_callback(void* callback_data, uint8_t msg, uint32_t handle, uint32
 
 void http_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
-	CHttpConn* pConn = NULL;
+	CHttpConn* pConn = nullptr;
 	HttpConnMap_t::iterator it, it_old;
 	uint64_t cur_time = get_tick_count();
 
@@ -79,7 +79,7 @@ void http_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle,
 
 void init_http_conn()
 {
-	netlib_register_timer(http_conn_timer_callback, NULL, 1000);
+	netlib_register_timer(http_conn_timer_callback, nullptr, 1000);
 }
 
 //////////////////////////
@@ -212,7 +212,7 @@ void CHttpConn::OnWrite()
 
 	int out_buf_size = (int)m_out_buf.GetWriteOffset();
 
-	m_out_buf.Read(NULL, ret);
+	m_out_buf.Read(nullptr, ret);
 
 	if (ret < out_buf_size)
 	{

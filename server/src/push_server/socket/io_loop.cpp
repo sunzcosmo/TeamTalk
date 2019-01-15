@@ -83,7 +83,7 @@ void CIOLoop::Run()
 		timeval tv;
 		tv.tv_sec = 1;
 		tv.tv_usec = 0;
-		int nRet = select(nMaxfd + 1, &fd_read, &fd_write, &fd_error, NULL);
+		int nRet = select(nMaxfd + 1, &fd_read, &fd_write, &fd_error, nullptr);
 		if (nRet > 0)
 		{
 			if (FD_ISSET(m_waker.GetWakeSocket(), &fd_read))
@@ -98,7 +98,7 @@ void CIOLoop::Run()
 				if (FD_ISSET(it1->first, &fd_read))
 				{
 					CBaseIOStream* pIOStream = _GetHandlerBySock(it1->first);
-					if (pIOStream != NULL)
+					if (pIOStream != nullptr)
 					{
 						if (pIOStream->GetSockType() == SOCK_TCP_SERVER)
 						{
@@ -114,7 +114,7 @@ void CIOLoop::Run()
 				if (FD_ISSET(it1->first, &fd_write))
 				{
 					CBaseIOStream* pIOStream = _GetHandlerBySock(it1->first);
-					if (pIOStream != NULL)	
+					if (pIOStream != nullptr)	
 					{
 						if (pIOStream->GetSockType() == SOCK_TCP_CLIENT && pIOStream->CheckConnect())
 						{
@@ -151,7 +151,7 @@ void CIOLoop::Run()
 				if (FD_ISSET(it1->first, &fd_error))
 				{
 					CBaseIOStream* pIOStream = _GetHandlerBySock(it1->first);
-					if (pIOStream != NULL)
+					if (pIOStream != nullptr)
 					{
 						//windows的超时判断是利用err_fds来判断
 						//对于不存在的IP(即linux会报111错误),或者IP存在，端口不存在(即linux会报110错误)
@@ -178,7 +178,7 @@ void CIOLoop::Run()
 			//{
 			//	//write
 			//	CBaseIOStream* pIOStream = _GetHandlerBySock(it1->first);
-			//	if (pIOStream != NULL)
+			//	if (pIOStream != nullptr)
 			//	{
 			//		if (pIOStream->GetSockType() == SOCK_TCP_CLIENT && pIOStream->CheckConnect())
 			//		{
@@ -205,7 +205,7 @@ void* CIOLoop::RunThread( void* ptr )
 {
 	CIOLoop* pApp = (CIOLoop*)ptr;
 	pApp->Run();
-	return NULL;
+	return nullptr;
 }
 
 /**	@fn	void CIOLoop::Add_Handler(CBaseIOStream* piostream)
@@ -241,7 +241,7 @@ void CIOLoop::Remove_Handler( CBaseIOStream* piostream )
 */
 CBaseIOStream* CIOLoop::_GetHandlerBySock( S_SOCKET sock )
 {
-	CBaseIOStream* pIOStream = NULL;
+	CBaseIOStream* pIOStream = nullptr;
 	map<S_SOCKET, CBaseIOStream*>::iterator it = m_MapIOStreamBySocket.find(sock);
 	if (it != m_MapIOStreamBySocket.end())
 	{

@@ -88,17 +88,17 @@ std::string valueToString(double value) {
 std::string valueToString(bool value) { return value ? "true" : "false"; }
 
 std::string valueToQuotedString(const char *value) {
-  if (value == NULL)
+  if (value == nullptr)
     return "";
   // Not sure how to handle unicode...
-  if (strpbrk(value, "\"\\\b\f\n\r\t") == NULL &&
+  if (strpbrk(value, "\"\\\b\f\n\r\t") == nullptr &&
       !containsControlCharacter(value))
     return std::string("\"") + value + "\"";
   // We have to walk value and escape any special characters.
   // Appending to std::string is not efficient, but this should be rare.
   // (Note: forward slashes are *not* rare, but I am not escaping them.)
   std::string::size_type maxsize =
-      strlen(value) * 2 + 3; // allescaped+quotes+NULL
+      strlen(value) * 2 + 3; // allescaped+quotes+nullptr
   std::string result;
   result.reserve(maxsize); // to avoid lots of mallocs
   result += "\"";
@@ -444,7 +444,7 @@ std::string StyledWriter::normalizeEOL(const std::string &text) {
 // //////////////////////////////////////////////////////////////////
 
 StyledStreamWriter::StyledStreamWriter(std::string indentation)
-    : document_(NULL), rightMargin_(74), indentation_(indentation),
+    : document_(nullptr), rightMargin_(74), indentation_(indentation),
       addChildValues_() {}
 
 void StyledStreamWriter::write(std::ostream &out, const Value &root) {
@@ -455,7 +455,7 @@ void StyledStreamWriter::write(std::ostream &out, const Value &root) {
   writeValue(root);
   writeCommentAfterValueOnSameLine(root);
   *document_ << "\n";
-  document_ = NULL; // Forget the stream, for safety.
+  document_ = nullptr; // Forget the stream, for safety.
 }
 
 void StyledStreamWriter::writeValue(const Value &value) {

@@ -121,11 +121,11 @@ CImPdu* CImPdu::ReadPdu(uchar_t *buf, uint32_t len)
 {
 	uint32_t pdu_len = 0;
 	if (!IsPduAvailable(buf, len, pdu_len))
-		return NULL;
+		return nullptr;
 
 	uint16_t service_id = CByteStream::ReadUint16(buf + 8);
 	uint16_t command_id = CByteStream::ReadUint16(buf + 10);
-	CImPdu* pPdu = NULL;
+	CImPdu* pPdu = nullptr;
 
     pPdu = new CImPdu();
     //pPdu->_SetIncomingLen(pdu_len);
@@ -159,8 +159,8 @@ bool CImPdu::IsPduAvailable(uchar_t* buf, uint32_t len, uint32_t& pdu_len)
 void CImPdu::SetPBMsg(const google::protobuf::MessageLite* msg)
 {
     //设置包体，则需要重置下空间
-    m_buf.Read(NULL, m_buf.GetWriteOffset());
-    m_buf.Write(NULL, sizeof(PduHeader_t));
+    m_buf.Read(nullptr, m_buf.GetWriteOffset());
+    m_buf.Write(nullptr, sizeof(PduHeader_t));
     uint32_t msg_size = msg->ByteSize();
     uchar_t* szData = new uchar_t[msg_size];
     //ALLOC_FAIL_ASSERT(szData)
